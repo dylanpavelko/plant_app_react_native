@@ -2,7 +2,7 @@ import React, { useEffect, useState }  from 'react';
 import { ActivityIndicator, Button, View, Text, FlatList } from 'react-native';
 import styles from './../styles/app.style.js';
 
-export default function PlantLibraryScreen() {
+export default function PlantLibraryScreen({ route, navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
@@ -21,21 +21,26 @@ export default function PlantLibraryScreen() {
    justifyContent:'center'
   }}>
 <Button title="Go to Home screen"
-    onPress={() => this.props.navigation.navigate('Home')}
+    onPress={() => navigation.navigate('Home')}
    />
    <Button title="First Plant"
-    onPress={() => this.props.navigation.navigate('Plant Details', {name: 'Fern'})}
+    onPress={() => navigation.navigate('Plant Details', {name: 'Fern'})}
    />
    <Button title="Second Plant"
-    onPress={() => this.props.navigation.navigate('Plant Details', {name: 'Monstrera'})}
+    onPress={() => navigation.navigate('Plant Details', {name: 'Monstrera'})}
    />
    {isLoading ? <ActivityIndicator/> : (
         <FlatList
           data={data}
           keyExtractor={({ id }, index) => id}
           renderItem={({ item }) => (
-            <Text>Plant number {item.scientific_name_with_common_names}</Text>
-            
+              <Button 
+                 title={item.scientific_name_with_common_names}
+                  onPress={() => navigation.navigate('Plant Details', {
+                    plant_id: item.id,
+                    name: item.scientific_name_with_common_names,
+                  })}
+              />
           )}
         />
       )}

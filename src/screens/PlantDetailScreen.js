@@ -11,8 +11,7 @@ function PlantDetailScreen({ route, navigation }) {
    alignItems:'center',
    justifyContent:'center'
   }}>
-    <Text>First Plant</Text>
-    <PlantHeader name={ name } />
+    <PlantHeader name={ JSON.stringify(name) } />
   </View>
 );
 }

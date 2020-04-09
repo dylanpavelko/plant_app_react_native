@@ -9,28 +9,9 @@ import Profile from './src/screens/ProfileScreen';
 import PlantLibrary from './src/screens/PlantLibraryScreen';
 import PlantDetail from './src/screens/PlantDetailScreen';
 
-function DetailsScreen({route, navigation}) {
-  const { name } = route.params;
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen for { name }</Text>
-      <Text>Blah</Text>
-    </View>
-  );
-}
-
-
-
-
-
 const Stack = createStackNavigator();
 
 function App() {
-
-  
-
-  
-  
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
@@ -44,7 +25,6 @@ function App() {
         <Stack.Screen name="Plant Details" component={PlantDetail} />
         <Stack.Screen name="Plant Library" component={PlantLibrary} />
         <Stack.Screen name="Profile" component={Profile} />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
