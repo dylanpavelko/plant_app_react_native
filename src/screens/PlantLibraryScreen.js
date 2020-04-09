@@ -9,10 +9,10 @@ export default function PlantLibraryScreen({ route, navigation }) {
   useEffect(() => {
     fetch('http://localhost:3000/plants.json')
       .then((response) => response.json())
-      .then((json) => {setData(json.plants); console.log(json)})
+      .then((json) => {setData(json.plants);})
       .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
-  });
+      .finally(() => {setLoading(false);});
+  },[]);
 
  return (
   <View style={{ 
