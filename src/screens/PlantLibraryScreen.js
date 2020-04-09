@@ -1,12 +1,19 @@
-import React from 'react';
-import { Button, View, Text } from 'react-native';
+import React, { useEffect, useState }  from 'react';
+import { ActivityIndicator, Button, View, Text, FlatList } from 'react-native';
 import styles from './../styles/app.style.js';
 
-class PlantLibraryScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Plant Library'
-   };
- render() {
+export default function PlantLibraryScreen() {
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/plants.json')
+      .then((response) => response.json())
+      .then((json) => {setData(json.plants); console.log(json)})
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  });
+
  return (
   <View style={{ 
    flex: 1,
@@ -22,11 +29,21 @@ class PlantLibraryScreen extends React.Component {
    <Button title="Second Plant"
     onPress={() => this.props.navigation.navigate('Plant Details', {name: 'Monstrera'})}
    />
+   {isLoading ? <ActivityIndicator/> : (
+        <FlatList
+          data={data}
+          keyExtractor={({ id }, index) => id}
+          renderItem={({ item }) => (
+            <Text>Plant number {item.scientific_name_with_common_names}</Text>
+            
+          )}
+        />
+      )}
   </View>
 );
+
 }
-}
-export default PlantLibraryScreen;
+
 
 
 // import React from 'react';
@@ -66,3 +83,5 @@ export default PlantLibraryScreen;
 //     </View>
 //     )
 // }
+
+
