@@ -10,8 +10,8 @@ function ConvertEMtags(props) {
 		<Text>
 			{name_parts.map((string, index) => 
 				{if(index % 2 === 1)	
-					return <Text style={styles.italic}>{string}</Text>	
-				return <Text>{string}</Text>
+					return <Text style={styles.italic} key={index.toString()} >{string}</Text>	
+				return <Text key={index.toString()}>{string}</Text>
 			}
 			)}
 		</Text>
