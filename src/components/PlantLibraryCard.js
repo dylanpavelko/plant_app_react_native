@@ -16,7 +16,11 @@ export default function PlantLibraryCard(props) {
 		        <Image 
 	          		style={styles.plant_image_lib_link}
 	          		source={{uri: props.image_url }} />
-	          	<ScientificName name={props.scientific_name_with_common_names} />
+	          	<View style={styles.absoluteView}>
+	          		<Text style={styles.plantLink}>
+			          	<ScientificName name={props.scientific_name_with_common_names} />
+			        </Text>
+		        </View>
             </TouchableOpacity>
 		</View>
 	);

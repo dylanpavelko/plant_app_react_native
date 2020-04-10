@@ -2,6 +2,9 @@ import React from 'react';
 import { Button, View, Text } from 'react-native';
 import styles from './../styles/app.style.js';
 
+import ScientificName from './../components/ScientificName';
+
+
 function PlantDetailScreen({ route, navigation }) {
   const { name } = route.params;
   return (
@@ -11,7 +14,7 @@ function PlantDetailScreen({ route, navigation }) {
    alignItems:'center',
    justifyContent:'center'
   }}>
-    <PlantHeader name={ JSON.stringify(name) } />
+    <PlantHeader name={ name } />
   </View>
 );
 }
@@ -22,7 +25,8 @@ export default PlantDetailScreen;
 function PlantHeader(props){
   return (
     <View>
-      <Text>Hello, I am {props.name}!</Text>
+      <Text>Hello, I am <ScientificName name={props.name} /></Text>
+      
     </View>
   );
 }

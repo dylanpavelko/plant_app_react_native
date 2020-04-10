@@ -14,7 +14,6 @@ export default StyleSheet.create({
     },
     plantLink: {
       color: 'white',
-      backgroundColor: 'yellow'
     },
     plant_image_lib_link: {
     width: 100,
@@ -25,6 +24,12 @@ export default StyleSheet.create({
     },
     italic: {
       fontStyle: 'italic'
+    },
+    absoluteView: {
+      flex: 1,
+      position: 'absolute',
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      bottom: 0
     }
   
 });
