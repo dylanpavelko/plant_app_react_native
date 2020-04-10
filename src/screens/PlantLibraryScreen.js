@@ -32,6 +32,7 @@ export default function PlantLibraryScreen({ route, navigation }) {
               id={item.id} 
               scientific_name_with_common_names={item.scientific_name_with_common_names} 
               image_url={item.image_url}
+              nav={navigation}
             />
           )}
         />
