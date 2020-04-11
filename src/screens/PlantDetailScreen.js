@@ -3,7 +3,7 @@ import { ActivityIndicator, Button, View, Text, Image } from 'react-native';
 
 import config from './../../config';
 import styles from './../styles/app.style.js';
-import ScientificName from './../components/ScientificName';
+
 
 
 function PlantDetailScreen({ route, navigation }) {
