@@ -69,6 +69,7 @@ function PlantHeader(props){
             )
           })}
       </Text>
+      <Text></Text>
       
     </View>
   );
@@ -78,14 +79,14 @@ function PlantHeader(props){
 
 function Variety(props){
    if(props.variety == null){
-    return <Text></Text>;
+    return (null);
   }
   return (<TaxonomySection label="Variety" name={props.variety.name} />)
 }
 
 function Cultivator(props){
      if(props.cultivator == null){
-    return <Text></Text>;
+    return (null);
   }
   return (<TaxonomySection label="Cultivator" name={props.cultivator.name} />)
 }
