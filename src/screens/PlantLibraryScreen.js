@@ -1,5 +1,5 @@
 import React, { useEffect, useState }  from 'react';
-import { ActivityIndicator, Button, View, Text, FlatList, Image } from 'react-native';
+import { ActivityIndicator, Button, View, Text, FlatList, Image, Dimensions } from 'react-native';
 import styles from './../styles/app.style';
 import PlantLibraryCard from './../components/PlantLibraryCard';
 import config from './../../config';
@@ -29,6 +29,7 @@ export default function PlantLibraryScreen({ route, navigation }) {
    {isLoading ? <ActivityIndicator/> : (
         <FlatList
           data={data}
+          numColumns={3}
           keyExtractor={({ id }, index) => id.toString()}
           renderItem={({ item }) => (
             <PlantLibraryCard

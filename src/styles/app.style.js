@@ -18,6 +18,11 @@ export default StyleSheet.create({
     plant_image_lib_link: {
     width: 100,
     height: 100,
+    margin: 0.5
+    },
+    plant_image_detail: {
+    width: 250,
+    height: 250,
     },
     bold: {
       fontWeight: 'bold'
