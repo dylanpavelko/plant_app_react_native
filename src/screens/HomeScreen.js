@@ -13,6 +13,7 @@ render() {
     <Text style={styles.title} >Plant Tracker</Text>
     <Button title="User Profile" onPress={() => this.props.navigation.navigate('Profile')} color="tan" />
     <Button title="Plant Library" onPress={() => this.props.navigation.navigate('Plant Library')} color="tan" />
+
   </View>
 );
 }
