@@ -8,6 +8,8 @@ import Home from './src/screens/HomeScreen';
 import Profile from './src/screens/ProfileScreen';
 import PlantLibrary from './src/screens/PlantLibraryScreen';
 import PlantDetail from './src/screens/PlantDetailScreen';
+import MyPlants from './src/screens/MyPlantsScreen';
+import LogIn from './src/screens/LogInScreen';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +27,9 @@ function App() {
         <Stack.Screen name="Plant Details" component={PlantDetail} />
         <Stack.Screen name="Plant Library" component={PlantLibrary} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="My Plants" component={MyPlants} />
+        <Stack.Screen name="User Profile" component={Profile} />
+        <Stack.Screen name="Log In" component={LogIn} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -35,6 +35,28 @@ export default StyleSheet.create({
       position: 'absolute',
       backgroundColor: 'rgba(0,0,0,0.5)',
       bottom: 0
-    }
+    },
+    inputView:{
+      width:"80%",
+      backgroundColor:"#16bb4f",
+      borderRadius:25,
+      height:60,
+      marginBottom:20,
+      justifyContent:"center",
+      padding:20
+  },
+  inputText:{
+    color:"white"
+  }, 
+  loginBtn:{
+    width:"80%",
+    backgroundColor:"#17c653",
+    borderRadius:25,
+    height:50,
+    alignItems:"center",
+    justifyContent:"center",
+    marginTop:40,
+    marginBottom:10
+  }
   
 });

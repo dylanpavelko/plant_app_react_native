@@ -10,10 +10,9 @@ class Home extends React.Component {
 render() {
  return (
   <View style={styles.container}>
-    <Text style={styles.title} >Plant Tracker</Text>
-    <Button title="User Profile" onPress={() => this.props.navigation.navigate('Profile')} color="tan" />
     <Button title="Plant Library" onPress={() => this.props.navigation.navigate('Plant Library')} color="tan" />
-
+    <Text style={styles.title} >Plant Tracker</Text>
+    <Button title="My Plants" onPress={() => this.props.navigation.navigate('My Plants')} color="tan" />
   </View>
 );
 }
