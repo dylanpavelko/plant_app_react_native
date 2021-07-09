@@ -83,8 +83,7 @@ render() {
           <Text>{userLoadingErrorMessage}</Text>
     ) : null}
 
-    <Button title="Log out" onPress={this.logOut} />
-    <Text>Test</Text>
+    {(this.state.users.length > 0)? (<Button title="Log out" onPress={this.logOut} />) : null}
 
   </View>
 );
