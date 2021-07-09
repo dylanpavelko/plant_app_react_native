@@ -60,6 +60,7 @@ export default class Home extends React.Component {
 
   logOut = async () => {
     console.log(await getToken());
+    this.setState({ hasLoadedUsers: false, users: [] })
     await setToken('');
     console.log('logout')
     this.props.navigation.navigate('Home');
