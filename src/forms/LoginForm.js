@@ -15,7 +15,12 @@ const LoginForm = ({ buttonText, onSubmit, children, onAuthentication }) => {
         await setToken(res.auth_token);
         onAuthentication();
       })
-      .catch((res) => setErrorMessage(res.error));
+      .catch((res) => {
+      	if (res && res.error) {
+      		setErrorMessage(res.error);
+      	}
+      	setErrorMessage('Something went wrong');
+      });
   };
 
   return (
@@ -41,7 +46,7 @@ const LoginForm = ({ buttonText, onSubmit, children, onAuthentication }) => {
       <TouchableOpacity 
       style={styles.loginBtn}
       onPress={submit}>
-          <Text style={styles.inputText}>LOGIN</Text>
+          <Text style={styles.inputText}>{buttonText}</Text>
       </TouchableOpacity>
       {errorMessage ? <Text>{errorMessage}</Text> : null}
       {children}

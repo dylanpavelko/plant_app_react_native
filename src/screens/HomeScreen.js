@@ -1,7 +1,9 @@
 import React from 'react';
 import { Button, View, Text } from 'react-native';
 import styles from './../styles/app.style.js';
-import { getUsers } from '../api/mock';
+import { getUsers } from '../api/users';
+import { getMyPlants } from '../api/my_plants';
+
 import { setToken, getToken } from '../api/token';
 
 
@@ -14,11 +16,11 @@ export default class Home extends React.Component {
 
   loadUsers() {
     this.setState({ hasLoadedUsers: false, userLoadingErrorMessage: '' });
-    getUsers()
-      .then((res) =>
+    getMyPlants()
+      .then((users) =>
         this.setState({
           hasLoadedUsers: true,
-          users: res.users,
+          users,
         }),
       )
       .catch(this.handleUserLoadingError);
@@ -77,13 +79,17 @@ render() {
     <Button title="My Plants" onPress={() => this.props.navigation.navigate('My Plants')} color="tan" />
 
     {this.state.users.map((user) => (
-      <Text key={user.email}>{user.email}</Text>
+      <Text key={user.plant_id}>{user.plant_id}</Text>
     ))}
     {userLoadingErrorMessage ? (
           <Text>{userLoadingErrorMessage}</Text>
     ) : null}
 
-    {(this.state.users.length > 0)? (<Button title="Log out" onPress={this.logOut} />) : null}
+    {
+      (getToken !== null)? 
+      (<Button title="Log out" onPress={this.logOut} />) : null
+    }
+
 
   </View>
 );
