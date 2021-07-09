@@ -8,17 +8,22 @@ export default StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center'
     },
+    library: {
+      backgroundColor: '#c4e5cf',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: 1
+    },
+    background: {
+      flex: 1,
+      backgroundColor: '#c4e5cf',
+    },
     title: {
       color: 'white',
       fontSize: 30
     },
     plantLink: {
       color: 'white',
-    },
-    plant_image_lib_link: {
-    width: 100,
-    height: 100,
-    margin: 0.5
     },
     plant_image_detail: {
     width: 250,

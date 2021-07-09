@@ -1,7 +1,8 @@
 import React, { useEffect, useState }  from 'react';
-import { ActivityIndicator, Button, View, Text, FlatList, Image, Dimensions } from 'react-native';
+import { ActivityIndicator, Button, View, Text, FlatList, Image, Dimensions, ScrollView } from 'react-native';
 import styles from './../styles/app.style';
 import PlantLibraryCard from './../components/PlantLibraryCard';
+import FooterNavigation from './../components/FooterNavigation';
 import config from './../../config';
 
 
@@ -20,11 +21,7 @@ export default function PlantLibraryScreen({ route, navigation }) {
   },[]);
   
  return (
-  <View style={{ 
-   flex: 1,
-   alignItems:'center',
-   justifyContent:'center'
-  }}>
+  <View style={styles.library}>
   <Text>{ config.PLANT_DB_URL_HOST + '/plants.json'}</Text>
    {isLoading ? <ActivityIndicator/> : (
         <FlatList
@@ -41,6 +38,7 @@ export default function PlantLibraryScreen({ route, navigation }) {
           )}
         />
       )}
+    <FooterNavigation nav={navigation}/>
   </View>
 );
 

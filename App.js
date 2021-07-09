@@ -13,6 +13,8 @@ import LogIn from './src/screens/LogInScreen';
 
 const Stack = createStackNavigator();
 
+
+
 function App() {
   return (
     <NavigationContainer>
@@ -24,15 +26,17 @@ function App() {
             headerShown: false,
           }}
         />
-        <Stack.Screen name="Plant Details" component={PlantDetail} />
-        <Stack.Screen name="Plant Library" component={PlantLibrary} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="My Plants" component={MyPlants} />
-        <Stack.Screen name="User Profile" component={Profile} />
-        <Stack.Screen name="Log In" component={LogIn} />
+        <Stack.Screen name="Plant Details" component={PlantDetail} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+        <Stack.Screen name="Plant Library" component={PlantLibrary} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+        <Stack.Screen name="Profile" component={Profile} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+        <Stack.Screen name="My Plants" component={MyPlants} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+        <Stack.Screen name="User Profile" component={Profile} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+        <Stack.Screen name="Log In" component={LogIn} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+
 
 export default App;

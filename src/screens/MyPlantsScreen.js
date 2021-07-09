@@ -17,6 +17,8 @@ export default function MyPlantsScreen({ route, navigation }) {
         onPress={() => navigation.navigate('Log In')}
        />
   </View>
+
+  
 );
 
 }
