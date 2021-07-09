@@ -3,6 +3,8 @@ import { Button, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView }
 import styles from './../styles/app.style';
 import { login } from '../api/mock';
 import { setToken } from '../api/token';
+import LoginForm from '../forms/LoginForm';
+
 
 
 export default function LogInScreen({ route, navigation }) {
@@ -21,31 +23,13 @@ export default function LogInScreen({ route, navigation }) {
 
 
  return (
-  <KeyboardAvoidingView 
-    style={styles.container}
-    behavior='padding'>
 
-    <View style={styles.inputView} >
-      <TextInput 
-        style={styles.inputText} 
-        keyboardType="email-address"
-        placeholder="Email/Username..."
-        onChangeText={text => setEmail(text)} />
-    </View>
-    <View style={styles.inputView} >
-    <TextInput secureTextEntry 
-      style={styles.inputText} 
-      placeholder="Password..." 
-      onChangeText={text => setPassword(text)} />
-    </View>
-    <TouchableOpacity 
-      style={styles.loginBtn}
-      onPress={loginUser}>
-          <Text style={styles.inputText}>LOGIN</Text>
-    </TouchableOpacity>
-    {errorMessage ? <Text>{errorMessage}</Text> : null}
-
-  </KeyboardAvoidingView>
+  <LoginForm
+      buttonText="Log in"
+      onSubmit={login}
+      onAuthentication={() => navigation.navigate('Home')}
+  >
+  </LoginForm>
 );
 
 }
