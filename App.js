@@ -17,6 +17,7 @@ import {navigationRef} from './src/utilities/RootNavigation';
 
 const Stack = createStackNavigator();
 
+const  state = { users: [], hasLoadedUsers: false, userLoadingErrorMessage: '' };
 
 
 function App() {
@@ -35,7 +36,7 @@ function App() {
           <Stack.Screen name="Plant Library" component={PlantLibrary} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
           <Stack.Screen name="Profile" component={Profile} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
           <Stack.Screen name="My Plants" component={MyPlants} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
-          <Stack.Screen name="User Profile" component={Profile} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+          <Stack.Screen name="My Profile" component={Profile} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
           <Stack.Screen name="Log In" component={LogIn} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
         </Stack.Navigator>
       </NavigationContainer>

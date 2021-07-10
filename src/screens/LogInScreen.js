@@ -15,7 +15,7 @@ export default function LogInScreen({ route, navigation }) {
   <LoginForm
       buttonText="Log in"
       onSubmit={login}
-      onAuthentication={() => navigation.navigate('Home')}
+      onAuthentication={() => navigation.navigate('My Plants')}
   >
 
   </LoginForm>

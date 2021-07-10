@@ -27,8 +27,6 @@ export const post = async (destination, body) => {
     body: JSON.stringify(body),
   });
 
-  console.log(result);
-
   if (result.ok) {
     return await result.json();
   }

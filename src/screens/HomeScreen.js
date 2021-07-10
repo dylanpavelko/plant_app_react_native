@@ -3,6 +3,8 @@ import { Button, View, Text } from 'react-native';
 import styles from './../styles/app.style.js';
 import { getUsers } from '../api/users';
 import { getMyPlants } from '../api/my_plants';
+import config from './../../config';
+
 
 import { setToken, getToken } from '../api/token';
 
@@ -28,9 +30,10 @@ export default class Home extends React.Component {
 
   handleUserLoadingError = (res) => {
     if (res.error === 401) {
-      console.log("Error 401");
+      console.log("Error 401: No User Logged in to Home Screen");
      //this.props.navigation.navigate('Log In');
      this.setState({
+        users: [],
         hasLoadedUsers: false,
       });
     } else {
@@ -46,9 +49,9 @@ export default class Home extends React.Component {
     this._unsubscribe = this.props.navigation.addListener(
       'focus',
       () => {
-        if (!this.state.hasLoadedUsers) {
+        
           this.loadUsers();
-        }
+        
       },
     );
   }
@@ -75,19 +78,16 @@ render() {
   <View style={styles.container}>
     <Button title="Plant Library" onPress={() => this.props.navigation.navigate('Plant Library')} color="tan" />
     <Text style={styles.title} >Plant Tracker</Text>
+    <Text>{ config.PLANT_DB_URL_HOST + '/plants.json'}</Text>
     <Button title="My Plants" onPress={() => this.props.navigation.navigate('My Plants')} color="tan" />
 
     {this.state.users.map((user) => (
       <Text key={user.plant_id}>{user.plant_id}</Text>
     ))}
-    {userLoadingErrorMessage ? (
-          <Text>{userLoadingErrorMessage}</Text>
-    ) : null}
+    {this.state.hasLoadedUsers ? (
+          <Text>Observe Your Plants!</Text>
+    ) : <Text>Welcome</Text>}
 
-    {
-      (getToken !== null)? 
-      (<Button title="Log out" onPress={this.logOut} />) : null
-    }
 
 
   </View>

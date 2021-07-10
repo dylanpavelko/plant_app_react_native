@@ -3,7 +3,6 @@ import { Text, View, Image, Button, TouchableOpacity, Dimensions } from 'react-n
 import styles from './../styles/app.style';
 
 function ConvertEMtags(props) {
-	console.log(props)
 	var name_parts = props.name.split(/<em>|<\/em>/);
 	return (
 			<Text>

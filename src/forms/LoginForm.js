@@ -28,6 +28,7 @@ const LoginForm = ({ buttonText, onSubmit, children, onAuthentication }) => {
     	<View style={styles.inputView}>
       <TextInput
         style={styles.inputText}
+        autoCapitalize='none'
         onChangeText={(text) => onChangeEmail(text)}
         value={email}
         keyboardType="email-address"
