@@ -38,7 +38,7 @@ export default function PlantLibraryScreen({ route, navigation }) {
           )}
         />
       )}
-    <FooterNavigation nav={navigation}/>
+    
   </View>
 );
 

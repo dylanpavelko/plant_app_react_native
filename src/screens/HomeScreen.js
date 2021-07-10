@@ -46,7 +46,6 @@ export default class Home extends React.Component {
     this._unsubscribe = this.props.navigation.addListener(
       'focus',
       () => {
-        console.log("test");
         if (!this.state.hasLoadedUsers) {
           this.loadUsers();
         }

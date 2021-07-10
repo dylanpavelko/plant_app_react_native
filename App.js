@@ -11,29 +11,36 @@ import PlantDetail from './src/screens/PlantDetailScreen';
 import MyPlants from './src/screens/MyPlantsScreen';
 import LogIn from './src/screens/LogInScreen';
 
+import FooterNavigation from './src/components/FooterNavigation';
+import {navigationRef} from './src/utilities/RootNavigation';
+
+
 const Stack = createStackNavigator();
 
 
 
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen 
-          name="Home" 
-          component={Home} 
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen name="Plant Details" component={PlantDetail} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
-        <Stack.Screen name="Plant Library" component={PlantLibrary} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
-        <Stack.Screen name="Profile" component={Profile} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
-        <Stack.Screen name="My Plants" component={MyPlants} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
-        <Stack.Screen name="User Profile" component={Profile} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
-        <Stack.Screen name="Log In" component={LogIn} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <View style={{ flex: 1 }}>
+      <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen 
+            name="Home" 
+            component={Home} 
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen name="Plant Details" component={PlantDetail} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+          <Stack.Screen name="Plant Library" component={PlantLibrary} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+          <Stack.Screen name="Profile" component={Profile} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+          <Stack.Screen name="My Plants" component={MyPlants} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+          <Stack.Screen name="User Profile" component={Profile} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+          <Stack.Screen name="Log In" component={LogIn} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+      <FooterNavigation />
+    </View>
   );
 }
 
