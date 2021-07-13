@@ -20,7 +20,8 @@ const getHeaders = async () => {
 
 export const post = async (destination, body) => {
   const headers = await getHeaders();
-
+  console.log("destination " + destination)
+  console.log("body" + JSON.stringify(headers))
   const result = await fetch(`${API_URL}${destination}`, {
     method: 'POST',
     headers,
@@ -28,6 +29,7 @@ export const post = async (destination, body) => {
   });
 
   if (result.ok) {
+    console.log("Result was ok");
     return await result.json();
   }
   throw { error: result.status };

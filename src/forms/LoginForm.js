@@ -12,13 +12,15 @@ const LoginForm = ({ buttonText, onSubmit, children, onAuthentication }) => {
   const submit = () => {
     onSubmit(email, password)
       .then(async (res) => {
-        await setToken(res.auth_token);
+        console.log('response in submit ' + JSON.stringify(res))
+        await setToken(res.token);
         onAuthentication();
       })
       .catch((res) => {
       	if (res && res.error) {
       		setErrorMessage(res.error);
       	}
+        console.log(res)
       	setErrorMessage('Something went wrong');
       });
   };

@@ -11,14 +11,15 @@ export default function LogInScreen({ route, navigation }) {
 
 
  return (
+  <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+    <LoginForm
+        buttonText="Log in"
+        onSubmit={login}
+        onAuthentication={() => navigation.navigate('My Plants')}
+    >
 
-  <LoginForm
-      buttonText="Log in"
-      onSubmit={login}
-      onAuthentication={() => navigation.navigate('My Plants')}
-  >
-
-  </LoginForm>
+    </LoginForm>
+  </KeyboardAvoidingView>
 );
 
 }
