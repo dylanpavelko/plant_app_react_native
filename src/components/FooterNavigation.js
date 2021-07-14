@@ -6,7 +6,7 @@ import * as RootNavigation from './../utilities/RootNavigation';
 
 export default function FooterNavigation(props) {
 	return (
-	   <View style={{ flexDirection:"row" }}>
+	   <View style={{ flexDirection:"row", backgroundColor: '#c4e5cf' }}>
 	   	<TouchableOpacity 
 	       	style={styles.navButtonContainerL}
 	       	onPress={() => RootNavigation.navigate('Plant Library')}

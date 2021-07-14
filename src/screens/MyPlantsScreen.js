@@ -40,7 +40,7 @@ export default function MyPlantsScreen({ route, navigation }) {
   <View style={styles.library}>
     <ScrollView>
       {data.map((plant) => (
-        <MyPlantListItem key={plant.plant_id} name = {plant.plant_name} />
+        <MyPlantListItem key={plant.id} name = {plant.plant_name } plant_id = { plant.plant_id } nav={navigation} />
       ))}
       {hasLoadedUsers? 
         <Button title="Go to My Profile" onPress={() => navigation.navigate('My Profile')} />

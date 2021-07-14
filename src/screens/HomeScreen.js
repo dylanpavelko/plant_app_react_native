@@ -81,9 +81,6 @@ render() {
     <Text>{ config.PLANT_DB_URL_HOST + '/plants.json'}</Text>
     <Button title="My Plants" onPress={() => this.props.navigation.navigate('My Plants')} color="tan" />
 
-    {this.state.users.map((user) => (
-      <Text key={user.plant_id}>{user.plant_id}</Text>
-    ))}
     {this.state.hasLoadedUsers ? (
           <Text>Observe Your Plants!</Text>
     ) : <Text>Welcome</Text>}

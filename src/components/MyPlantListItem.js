@@ -1,5 +1,5 @@
-import React from 'react'
-import { Text, View, Image, Button, TouchableOpacity, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import { Text, View, Image, Button, CheckBox, TouchableOpacity, StyleSheet } from 'react-native'
 
 
 
@@ -7,14 +7,26 @@ import { Text, View, Image, Button, TouchableOpacity, StyleSheet } from 'react-n
 
 
 export default function MyPlantListItem(props) {
+	const [isSelected, setSelection] = useState(false);
+
 	return (
-		
 		<View>
-          		<Text key={ props.plant_id } style={styles.plantName} >
-            		<ConvertEMtags name = { props.name } />
-            
-          </Text>
-          </View>
+			<CheckBox
+				value={isSelected}
+				onValueChange={setSelection}
+				style={styles.checkbox}
+			/>
+			<TouchableOpacity
+		    onPress={() => props.nav.navigate('Growth Details', {
+        plant_id: props.plant_id,
+        name: props.common_names,
+      })}>
+	      <Text style={styles.plantName} >
+	        <ConvertEMtags name = { props.name } /> 
+	      </Text>
+	    </TouchableOpacity>
+      <View style = { styles.lineStyle } />
+    </View>
 	);
 }
 
@@ -35,7 +47,19 @@ function ConvertEMtags(props) {
 
 const styles = StyleSheet.create({
   plantName:{
-    marginRight: 1,
-    fontSize: 18
+    marginLeft: 60,
+    padding: 5,
+    fontSize: 18,
   },
+  italic:{
+  	fontStyle: 'italic',
+  },
+  lineStyle:{
+  	borderWidth: 0.5,
+  	borderColor: 'black',
+  	margin: 10,
+  },
+  checkBox:{
+  	alignSelf: "center",
+  }
 });

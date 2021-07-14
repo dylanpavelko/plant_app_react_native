@@ -8,6 +8,7 @@ import Home from './src/screens/HomeScreen';
 import Profile from './src/screens/ProfileScreen';
 import PlantLibrary from './src/screens/PlantLibraryScreen';
 import PlantDetail from './src/screens/PlantDetailScreen';
+import GrowthDetail from './src/screens/GrowthDetailScreen';
 import MyPlants from './src/screens/MyPlantsScreen';
 import LogIn from './src/screens/LogInScreen';
 
@@ -33,6 +34,7 @@ function App() {
             }}
           />
           <Stack.Screen name="Plant Details" component={PlantDetail} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+          <Stack.Screen name="Growth Details" component={GrowthDetail} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
           <Stack.Screen name="Plant Library" component={PlantLibrary} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
           <Stack.Screen name="Profile" component={Profile} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
           <Stack.Screen name="My Plants" component={MyPlants} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
