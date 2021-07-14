@@ -23,13 +23,11 @@ export default function MyPlantsScreen({ route, navigation }) {
   }
 
 
-
-
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getMyPlants()
           .then((response) => response)
-          .then((response) => {setData(response)})
+          .then((response) => setData(response))
           .then((response) => setLoadedUsers(true))
           .catch((error) => handleUserLoadingError(error))
           .finally(() => {setLoading(false);})

@@ -10,8 +10,9 @@ const getHeaders = async () => {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   };
-
+  console.log("headers with token " + token)
   if (token) {
+    console.log('adding token ' + token)
     headers.Authorization = `Bearer ${token}`;
   }
 
@@ -37,13 +38,14 @@ export const post = async (destination, body) => {
 
 export const get = async (destination) => {
   const headers = await getHeaders();
-
+  console.log("getting headers & token " + await getToken())
   const result = await fetch(`${API_URL}${destination}`, {
     method: 'GET',
     headers,
   });
 
   if (result.ok) {
+    console.log("get result ok")
     return await result.json();
   }
 
