@@ -38,9 +38,16 @@ export default function MyPlantsScreen({ route, navigation }) {
 
  return (
   <View style={styles.library}>
-    <ScrollView>
+    <ScrollView
+      showsHorizontalScrollIndicator={false}
+      directionalLockEnabled={true}
+    >
       {data.map((plant) => (
-        <MyPlantListItem key={plant.id} name = {plant.plant_name } plant_id = { plant.plant_id } nav={navigation} />
+        <MyPlantListItem key={plant.id} 
+        name = {plant.plant_name } 
+        plant_id = { plant.plant_id } 
+        location = { plant.location}
+        nav={navigation} />
       ))}
       {hasLoadedUsers? 
         <Button title="Go to My Profile" onPress={() => navigation.navigate('My Profile')} />

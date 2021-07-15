@@ -11,19 +11,17 @@ export default function MyPlantListItem(props) {
 
 	return (
 		<View>
-			<CheckBox
-				value={isSelected}
-				onValueChange={setSelection}
-				style={styles.checkbox}
-			/>
 			<TouchableOpacity
+				style={ styles.row }
 		    onPress={() => props.nav.navigate('Growth Details', {
         plant_id: props.plant_id,
         name: props.common_names,
+        location: props.location
       })}>
 	      <Text style={styles.plantName} >
 	        <ConvertEMtags name = { props.name } /> 
 	      </Text>
+	      <Text style={{alignItems:'center'}}>></Text>
 	    </TouchableOpacity>
       <View style = { styles.lineStyle } />
     </View>
@@ -47,7 +45,7 @@ function ConvertEMtags(props) {
 
 const styles = StyleSheet.create({
   plantName:{
-    marginLeft: 60,
+    paddingLeft: 60,
     padding: 5,
     fontSize: 18,
   },
@@ -61,5 +59,11 @@ const styles = StyleSheet.create({
   },
   checkBox:{
   	alignSelf: "center",
+  },
+  row:{
+  	paddingRight:20,
+  	flexDirection:'row',
+  	justifyContent:'space-between',
+  	alignItems:'center'
   }
 });

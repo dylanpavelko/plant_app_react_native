@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#129840',
+      backgroundColor: '#c4e5cf',
       alignItems: 'center',
       justifyContent: 'center'
     },
@@ -26,7 +26,7 @@ export default StyleSheet.create({
       color: 'white',
     },
     plant_image_detail: {
-    width: 250,
+    width: '100%',
     height: 250,
     },
     bold: {
@@ -43,7 +43,7 @@ export default StyleSheet.create({
     },
     inputView:{
       width:"80%",
-      backgroundColor:"#16bb4f",
+      backgroundColor:"#129840",
       borderRadius:25,
       height:60,
       marginBottom:20,
@@ -55,14 +55,27 @@ export default StyleSheet.create({
   }, 
   loginBtn:{
     width:"80%",
-    backgroundColor:"#17c653",
+    backgroundColor:"#129840",
     borderRadius:25,
     height:50,
     alignItems:"center",
     justifyContent:"center",
     marginTop:40,
-    marginBottom:10
+    marginBottom:10,
   },
+  rowContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start' // if you want to fill rows left to right
+  },
+  item50R: {
+    width: '50%', // is 50% of container width
+    paddingLeft: 5,
+  },
+  item50L: {
+    width: '50%', // is 50% of container width
+  }
 
   
 });
