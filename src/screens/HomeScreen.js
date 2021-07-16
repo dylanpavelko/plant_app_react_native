@@ -10,6 +10,7 @@ import { setToken, getToken } from '../api/token';
 
 
 export default class Home extends React.Component {
+
   static navigationOptions = {
     title: 'Home'
    };
@@ -75,6 +76,7 @@ render() {
 
 
  return (
+
   <View style={styles.container}>
     <Button title="Plant Library" onPress={() => this.props.navigation.navigate('Plant Library')} color="tan" />
     <Text style={styles.title} >Plant Tracker</Text>

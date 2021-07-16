@@ -12,8 +12,6 @@ export default function PlantLibraryScreen({ route, navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-
-
   useEffect(() => {
     fetch(config.PLANT_DB_URL_HOST+'/plants.json')
       .then((response) => response.json())
@@ -21,7 +19,7 @@ export default function PlantLibraryScreen({ route, navigation }) {
       .catch((error) => console.error(error))
       .finally(() => {setLoading(false);});
   },[]);
-  
+
  return (
   <View style={styles.library}>
 

@@ -3,6 +3,9 @@ import { ActivityIndicator, Button, View, ScrollView, Text, Image, TouchableOpac
 
 import config from './../../config';
 import styles from './../styles/app.style.js';
+import { getPlantInstance } from '../api/my_plants';
+import AddObservationButton from './../components/ObservationButton';
+
 
 
 
@@ -10,8 +13,11 @@ function GrowthDetailScreen({ route, navigation }) {
   const { name } = route.params;
   const { location } = route.params;
   var { plant_id } = route.params;
+  var { plant_instance_id } = route.params;
   const [isLoading, setLoading] = useState(true);
+  const [isInstanceLoading, setInstanceLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [plantInstanceData, setPlantInstanceData] = useState([]);
 
   useEffect(() => {
     fetch(config.PLANT_DB_URL_HOST+'/plants/'+plant_id+'.json')
@@ -21,11 +27,18 @@ function GrowthDetailScreen({ route, navigation }) {
       .finally(() => {setLoading(false);});
   },[]);
 
+  useEffect(() => {
+    getPlantInstance(plant_instance_id)
+      .then((response) => response)
+      .then((json) => {setPlantInstanceData(json);})
+      .catch((error) => console.error(error))
+      .finally(() => {setInstanceLoading(false);});
+  },[]);
 
   return (
      
   <View style={styles.background}>
-       {(isLoading) ? <ActivityIndicator/> : (
+       {(isLoading || isInstanceLoading) ? <ActivityIndicator/> : (
         <View>
           <Image 
                 style={styles.plant_image_detail}
@@ -43,7 +56,9 @@ function GrowthDetailScreen({ route, navigation }) {
             <Text style={{color:'white'}}>View Plant Details</Text>
           </TouchableOpacity>
           </View>
-          <Text>Location: {location} </Text>
+          <Text style={styles.bold}>Location:</Text>
+          <Text>{plantInstanceData.location.name} - {plantInstanceData.high_level_location.name} </Text>
+          <AddObservationButton plant_id={plant_id} plant_instance_id={plant_instance_id} />
         </View>
       )}
       

@@ -46,6 +46,7 @@ export default function MyPlantsScreen({ route, navigation }) {
         <MyPlantListItem key={plant.id} 
         name = {plant.plant_name } 
         plant_id = { plant.plant_id } 
+        plant_instance_id = { plant.id }
         location = { plant.location}
         nav={navigation} />
       ))}

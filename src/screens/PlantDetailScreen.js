@@ -1,15 +1,17 @@
 import React, { useEffect, useState }  from 'react';
-import { ActivityIndicator, Button, View, ScrollView, Text, Image } from 'react-native';
+import { ActivityIndicator, Button, View, ScrollView, Text, Image, TouchableOpacity } from 'react-native';
 import { getPlant } from '../api/my_plants';
 import config from './../../config';
 import styles from './../styles/app.style.js';
 import ResourceLink from './../components/ResourceLink';
+import GrowthDetailButton from  './../components/NavigationButton';
 
 
 
 function PlantDetailScreen({ route, navigation }) {
   const { name } = route.params;
-  var { plant_id } = route.params;
+  const { plant_id } = route.params;
+  const { plant_instance_id } = route.params;
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isLoadingOpenFarm, setLoadingOpenFarm] = useState(true);
@@ -59,15 +61,18 @@ function PlantDetailScreen({ route, navigation }) {
 
             <View style={{margin:10,}}>
                   <Text style={styles.bold}>Local Growing Recommendations</Text>
+                  <Text>Plant during:</Text>
+                  {data.growing_recommendations.map((recommended, index) => (
+                    <Text key={index}>{'\u2022'} {recommended[0]} to {recommended[1]} for harvest from {recommended[2]} to {recommended[3]} </Text>
+                    ))}
             </View>
 
             { data.plant_instances.length > 0 &&  
             <View style={{margin:10,}}>
               <Text style={styles.bold}>Your Growing Experience</Text>
-              
-                        {data.plant_instances.map((instance) => (
-                          <Text>Planted on {instance.planted_date} </Text>
-                        ))}
+                {data.plant_instances.map((instance) => (
+                  <GrowthDetailButton key={instance.id} name={'Planted on '+ instance.planted_date} plant_id={instance.plant_id}  plant_instance_id={ instance.id }/>
+                ))}
             </View>
             }
 

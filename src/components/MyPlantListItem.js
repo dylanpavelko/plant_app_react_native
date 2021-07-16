@@ -15,6 +15,7 @@ export default function MyPlantListItem(props) {
 				style={ styles.row }
 		    onPress={() => props.nav.navigate('Growth Details', {
         plant_id: props.plant_id,
+        plant_instance_id: props.plant_instance_id,
         name: props.common_names,
         location: props.location
       })}>

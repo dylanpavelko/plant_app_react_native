@@ -55,7 +55,7 @@ export default StyleSheet.create({
   }, 
   loginBtn:{
     width:"80%",
-    backgroundColor:"#129840",
+    backgroundColor:"#18cd58",
     borderRadius:25,
     height:50,
     alignItems:"center",

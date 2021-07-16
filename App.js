@@ -11,15 +11,14 @@ import PlantDetail from './src/screens/PlantDetailScreen';
 import GrowthDetail from './src/screens/GrowthDetailScreen';
 import MyPlants from './src/screens/MyPlantsScreen';
 import LogIn from './src/screens/LogInScreen';
+import AddObservation from './src/screens/AddObservationScreen';
+
 
 import FooterNavigation from './src/components/FooterNavigation';
 import {navigationRef} from './src/utilities/RootNavigation';
 
 
 const Stack = createStackNavigator();
-
-const  state = { users: [], hasLoadedUsers: false, userLoadingErrorMessage: '' };
-
 
 function App() {
   return (
@@ -40,6 +39,7 @@ function App() {
           <Stack.Screen name="My Plants" component={MyPlants} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
           <Stack.Screen name="My Profile" component={Profile} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
           <Stack.Screen name="Log In" component={LogIn} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
+          <Stack.Screen name="Add Observation" component={AddObservation} options={{headerStyle: {backgroundColor: '#c4e5cf'}}}/>
         </Stack.Navigator>
       </NavigationContainer>
       <FooterNavigation />
