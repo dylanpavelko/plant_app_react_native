@@ -7,12 +7,13 @@ export default function AddObservationButton(props) {
     const navigation = useNavigation();
 
     return (
-      <View style={{alignItems:"center",}}>
+      <View style={{alignItems:"center"}}>
       <View style={styles.button} >
         <TouchableOpacity
           	onPress={() => navigation.navigate('Add Observation', {
 	        plant_id: props.plant_id,
 	        plant_instance_id: props.plant_instance_id,
+          plant_stages: props.plant_stages,
 	      })} >
           <View>
           <Text style={{color:'white'}}>Add Observation</Text>

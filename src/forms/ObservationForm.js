@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, View, StyleSheet, TextInput, Button, Text, TouchableOpacity, Image } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
+import { Camera } from 'expo-camera';
+import { useNavigation } from '@react-navigation/native';
+
+    
 
 import { setToken } from '../api/token';
 import styles from './../styles/app.style';
 
 
-const ObservationForm = ({ buttonText, onSubmit, children, onAuthentication }) => {
+const ObservationForm = ({ plant_id, plant_instance_id, photo, buttonText, onSubmit, children, onAuthentication }) => {
   const [email, onChangeEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -15,6 +19,10 @@ const ObservationForm = ({ buttonText, onSubmit, children, onAuthentication }) =
   const [show, setShow] = useState(false);
 
   const [image, setImage] = useState(null);
+  const [photoURI, setPhotoURI] = useState(photo);
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
+
+  const navigation = useNavigation();
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -33,19 +41,24 @@ const ObservationForm = ({ buttonText, onSubmit, children, onAuthentication }) =
     })();
   }, []);
 
-
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasCameraPermission(status === 'granted');
+    })();
+  }, []);
   
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
       quality: 1,
     });
     console.log(result);
     if (!result.cancelled) {
-      setImage(result.uri);
+      setImage(result);
     }
+    
   };
 
   const submit = () => {
@@ -74,10 +87,15 @@ const ObservationForm = ({ buttonText, onSubmit, children, onAuthentication }) =
 
       <View>
         <Text>Add Picture</Text>
-        <Text>Camera</Text>
         <View>
-          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-          <Button title="Pick an image from camera roll" onPress={pickImage} />
+          {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
+          {image && photo && <Image source={{ uri: photo.uri }} style={{ width: 200, height: 200 }} />}
+          <Text>{ photoURI }</Text>
+          <View style={{ flexDirection:"row" }}>
+          <Button title="Camera" onPress={() => navigation.navigate('Camera', {plant_id: plant_id,
+          plant_instance_id: plant_instance_id,})}/><Button title="Photo Library" onPress={pickImage} />
+          </View>
+          {hasCameraPermission? <Text>Camera Permission Granted</Text> : <Text>Camera Permission Not Granted</Text>}
           
         </View>
       </View>
@@ -87,7 +105,7 @@ const ObservationForm = ({ buttonText, onSubmit, children, onAuthentication }) =
         <Text>Percent at Stage</Text>
       </View>
 
-      <View>
+      {/*<View>
         <Text>Watered</Text>
         <Text>Amount</Text>
       </View>
@@ -103,7 +121,8 @@ const ObservationForm = ({ buttonText, onSubmit, children, onAuthentication }) =
       <View>
         <Text>Notes</Text>
       </View>
-      
+      */}
+
     	<View style={styles.inputView}>
       <TextInput
         style={styles.inputText}

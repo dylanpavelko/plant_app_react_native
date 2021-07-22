@@ -58,7 +58,7 @@ function GrowthDetailScreen({ route, navigation }) {
           </View>
           <Text style={styles.bold}>Location:</Text>
           <Text>{plantInstanceData.location.name} - {plantInstanceData.high_level_location.name} </Text>
-          <AddObservationButton plant_id={plant_id} plant_instance_id={plant_instance_id} />
+          <AddObservationButton plant_id={plant_id} plant_instance_id={plant_instance_id} plant_stages={plantInstanceData.stages} />
         </View>
       )}
       

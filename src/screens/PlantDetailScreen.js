@@ -59,32 +59,36 @@ function PlantDetailScreen({ route, navigation }) {
               <Text style={styles.bold}>Description</Text>
             </View>
 
+            { data.growing_recommendations?  
             <View style={{margin:10,}}>
-                  <Text style={styles.bold}>Local Growing Recommendations</Text>
+                 <Text style={styles.bold}>Local Growing Recommendations</Text>
                   <Text>Plant during:</Text>
                   {data.growing_recommendations.map((recommended, index) => (
                     <Text key={index}>{'\u2022'} {recommended[0]} to {recommended[1]} for harvest from {recommended[2]} to {recommended[3]} </Text>
                     ))}
             </View>
+            : null
+          }
 
-            { data.plant_instances.length > 0 &&  
+            { data.plant_instances?   
             <View style={{margin:10,}}>
               <Text style={styles.bold}>Your Growing Experience</Text>
                 {data.plant_instances.map((instance) => (
                   <GrowthDetailButton key={instance.id} name={'Planted on '+ instance.planted_date} plant_id={instance.plant_id}  plant_instance_id={ instance.id }/>
                 ))}
             </View>
+            : null
             }
 
-            { data.resources.length > 0 &&  
+            { data.resources? 
                   <View style={{margin:10,}}>
                     <Text style={styles.bold}>Resources</Text>               
                      {data.resources.map((resource) => (
                         <ResourceLink name={resource.name} link={resource.link} />
                       ))}
                   </View>
-                
-            }
+            : null   
+             }
           </View>
           
         </View>
