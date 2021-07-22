@@ -1,9 +1,12 @@
 // App.js 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity, ScrollView } from 'react-native';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
+import {Picker} from '@react-native-picker/picker';
+import DropDownPicker from 'react-native-dropdown-picker';
+
 
 import BBCHSlider from './../components/BBCHSlider';
 
@@ -17,8 +20,17 @@ function App({route, navigation}) {
   const [date, setDate] = useState(new Date());
   // The path of the picked image
   const [pickedImagePath, setPickedImagePath] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState();
   const [selectedStage, setStage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'Apple', value: 'apple'},
+    {label: 'Fruit Ripens', value: '60'},
+    {label: 'Fruit Ripens - Fully ripe; all pods dry and brown. Seeds dry and hard', value: 'banana', parent: '60'}
+  ]);
 
   const submit = () => {
     onSubmit(email, password)
@@ -86,6 +98,11 @@ function App({route, navigation}) {
 
   return (
     <View style={styles.screen}>
+    <ScrollView
+    showsHorizontalScrollIndicator={false}
+      directionalLockEnabled={true}>
+    
+
       <View style={styles.imageContainer}>
         {
           pickedImagePath !== '' && <Image
@@ -102,10 +119,40 @@ function App({route, navigation}) {
         <Text>Observation Date</Text>
         <DateTimePicker value={date} onChange={onChangeDate} mode='date' maximumDate={new Date()}/>
       </View>
-      <View>
+      <View >
         <Text style={{fontWeight:'bold'}}>Growing Stage</Text>
-        <BBCHSlider value={10} plant_stages={plant_stages} />
+        <Text>BBCH Code: {value}</Text>
         {/* add percent when you can add multiple stages in this one UI <Text>Percent at Stage</Text> */}
+      </View>
+      
+      <View style={{width:'70%', zIndex:1000}}>
+
+        <DropDownPicker
+        open={open}
+        schema={{
+          label: 'description',
+          value: 'code'
+        }}
+        value={value}
+        items={plant_stages}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        listParentLabelStyle={{
+          fontStyle:'italic',
+          color:'grey'
+        }}
+        listMode="SCROLLVIEW"
+        searchable={true}
+        placeholder="Select a growth stage"
+        dropDownContainerStyle={{
+          backgroundColor: "#c4e5cf"
+        }}
+        style={{
+          backgroundColor: "#c4e5cf"
+        }}
+
+      />
       </View>
       {/*<View>
         <Text>Watered</Text>
@@ -128,20 +175,6 @@ function App({route, navigation}) {
         <Text>Plant Instance:</Text>
         <Text> {plant_instance_id} </Text>
       </View>
-
-
-      { plant_stages?   
-            <View style={{margin:10,}}>
-              <Text style={styles.bold}>Your Growing Experience</Text>
-                {plant_stages.map((stage) => (
-                  <Text>{stage.code}: {stage.description}</Text>
-                ))}
-            </View>
-            : <View><Text>No plant stages</Text></View>
-            }
-
-
-
       <TouchableOpacity 
       style={appStyles.loginBtn}
       onPress={submit}>
@@ -150,7 +183,9 @@ function App({route, navigation}) {
       {errorMessage ? <Text>{errorMessage}</Text> : null}
 
 
-
+      
+    
+    </ScrollView>
     </View>
   );
 }
