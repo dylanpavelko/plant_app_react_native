@@ -138,8 +138,6 @@ function App({route, navigation}) {
         <Button onPress={openCamera} title="Open camera" />
       </View>
       <View>
-        <Text>{pickedImagePath && pickedImagePath.uri.split('.')[pickedImagePath.uri.split('.').length - 1]}</Text>
-        <Text>{pickedImagePath && pickedImagePath.uri.split('/')[pickedImagePath.uri.split('/').length - 1]}</Text>
         <Text>Observation Date</Text>
         <DateTimePicker value={date} onChange={onChangeDate} mode='date' maximumDate={new Date()}/>
       </View>
