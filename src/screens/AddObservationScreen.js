@@ -105,14 +105,15 @@ function App({route, navigation}) {
       return;
     }
 
-    const result = await ImagePicker.launchCameraAsync();
+    const result = await ImagePicker.launchCameraAsync({base64: true});
 
     // Explore the result
     console.log(result);
 
     if (!result.cancelled) {
       setPickedImagePath(result);
-      console.log(result);
+      console.log("selected image: ")
+      setDate(new Date());
     }
   }
 
