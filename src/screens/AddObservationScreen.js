@@ -10,6 +10,8 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 import BBCHSlider from './../components/BBCHSlider';
 
+import { add_observation } from '../api/observation';
+
 import appStyles from './../styles/app.style';
 
 
@@ -18,6 +20,8 @@ function App({route, navigation}) {
   var { plant_instance_id } = route.params;
   const { plant_stages } = route.params;
   const [date, setDate] = useState(new Date());
+  const [show, setShow] = useState(false);
+
   // The path of the picked image
   const [pickedImagePath, setPickedImagePath] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState();
@@ -33,12 +37,16 @@ function App({route, navigation}) {
   ]);
 
   const submit = () => {
-    onSubmit(email, password)
+    imageName = pickedImagePath.uri.split('/')[pickedImagePath.uri.split('/').length - 1]
+    add_observation(plant_instance_id, date, value, pickedImagePath, imageName)
       .then(async (res) => {
-        console.log('response in submit ' + JSON.stringify(res))
-        await setToken(res.token);
-        onAuthentication();
-      })
+        console.log('response in observation ' + JSON.stringify(res))
+        navigation.navigate('Growth Details', {
+          //plant_id: props.plant_id,
+          plant_instance_id: plant_instance_id,
+          //name: props.name,
+          //location: props.location
+      })})
       .catch((res) => {
         if (res && res.error) {
           setErrorMessage(res.error);
@@ -58,16 +66,22 @@ function App({route, navigation}) {
       return;
     }
 
-    const result = await ImagePicker.launchImageLibraryAsync();
+    const result = await ImagePicker.launchImageLibraryAsync({base64: true,});
 
     // Explore the result
     console.log(result);
 
     if (!result.cancelled) {
-      setPickedImagePath(result.uri);
-      console.log(result.uri);
+      setPickedImagePath(result);
+      console.log("selected image: ")
+      console.log(result);
     }
   }
+
+
+  const bbch_code_category = (code) => {
+    return code + 1;
+  };
 
   const onChangeDate = (event, selectedDate) => {
   const currentDate = selectedDate || date;
@@ -91,22 +105,23 @@ function App({route, navigation}) {
     console.log(result);
 
     if (!result.cancelled) {
-      setPickedImagePath(result.uri);
-      console.log(result.uri);
+      setPickedImagePath(result);
+      console.log(result);
     }
   }
 
   return (
-    <View style={styles.screen}>
+
     <ScrollView
     showsHorizontalScrollIndicator={false}
-      directionalLockEnabled={true}>
+      directionalLockEnabled={true}
+      style={styles.screen} >
     
 
       <View style={styles.imageContainer}>
         {
           pickedImagePath !== '' && <Image
-            source={{ uri: pickedImagePath }}
+            source={{ uri: pickedImagePath.uri }}
             style={styles.image}
           />
         }
@@ -116,6 +131,8 @@ function App({route, navigation}) {
         <Button onPress={openCamera} title="Open camera" />
       </View>
       <View>
+        <Text>{pickedImagePath && pickedImagePath.uri.split('.')[pickedImagePath.uri.split('.').length - 1]}</Text>
+        <Text>{pickedImagePath && pickedImagePath.uri.split('/')[pickedImagePath.uri.split('/').length - 1]}</Text>
         <Text>Observation Date</Text>
         <DateTimePicker value={date} onChange={onChangeDate} mode='date' maximumDate={new Date()}/>
       </View>
@@ -131,7 +148,7 @@ function App({route, navigation}) {
         open={open}
         schema={{
           label: 'description',
-          value: 'code'
+          value: 'id'
         }}
         value={value}
         items={plant_stages}
@@ -149,7 +166,9 @@ function App({route, navigation}) {
           backgroundColor: "#c4e5cf"
         }}
         style={{
-          backgroundColor: "#c4e5cf"
+          backgroundColor: "#c4e5cf",
+          borderWidth: 0
+
         }}
 
       />
@@ -180,13 +199,14 @@ function App({route, navigation}) {
       onPress={submit}>
           <Text style={appStyles.inputText}>Save</Text>
       </TouchableOpacity>
+
       {errorMessage ? <Text>{errorMessage}</Text> : null}
 
 
       
     
     </ScrollView>
-    </View>
+
   );
 }
 
@@ -197,8 +217,6 @@ export default App;
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#c4e5cf',
   },
   buttonContainer: {
@@ -207,12 +225,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   imageContainer: {
-    padding: 30
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   image: {
     width: 400,
     height: 300,
-    resizeMode: 'cover'
+
   },
   sliderContainer: {
     flex: 1,

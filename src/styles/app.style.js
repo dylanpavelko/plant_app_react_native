@@ -43,7 +43,7 @@ export default StyleSheet.create({
     },
     inputView:{
       width:"80%",
-      backgroundColor:"#129840",
+      backgroundColor:"#18cd58",
       borderRadius:25,
       height:60,
       marginBottom:20,
