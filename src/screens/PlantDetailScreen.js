@@ -17,13 +17,18 @@ function PlantDetailScreen({ route, navigation }) {
   const [isLoadingOpenFarm, setLoadingOpenFarm] = useState(true);
   const [dataOpenFarm, setDataOpenFarm] = useState([]);
 
+
   useEffect(() => {
-    getPlant(plant_id)
-      .then((response) => response)
-      .then((json) => {setData(json);})
-      .catch((error) => console.error(error))
-      .finally(() => {setLoading(false);})
-  },[]);
+    const unsubscribe = navigation.addListener('focus', () => {
+      setLoading(true);
+      getPlant(plant_id)
+        .then((response) => response)
+        .then((json) => {setData(json);})
+        .catch((error) => console.error(error))
+        .finally(() => {setLoading(false);})
+        }
+  ,[navigation])});
+
 
   return (
      
@@ -70,16 +75,14 @@ function PlantDetailScreen({ route, navigation }) {
             : null
           }
 
-            { data.plant_instances?   
+            
             <View style={{margin:10,}}>
               <Text style={styles.bold}>Your Growing Experience</Text>
                 {data.plant_instances.map((instance) => (
                   <GrowthDetailButton key={instance.id} name={'Planted on '+ instance.planted_date} plant_id={instance.plant_id}  plant_instance_id={ instance.id }/>
-                ))}
+                ))} 
             </View>
-            : null
-            }
-
+            
             { data.resources? 
                   <View style={{margin:10,}}>
                     <Text style={styles.bold}>Resources</Text>               

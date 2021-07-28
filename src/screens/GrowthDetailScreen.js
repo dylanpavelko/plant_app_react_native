@@ -6,6 +6,8 @@ import config from './../../config';
 import styles from './../styles/app.style.js';
 import { getPlantInstance } from '../api/my_plants';
 import AddObservationButton from './../components/ObservationButton';
+import { getPlant } from '../api/my_plants';
+
 
 
 
@@ -21,20 +23,23 @@ function GrowthDetailScreen({ route, navigation }) {
   const [plantInstanceData, setPlantInstanceData] = useState([]);
 
   useEffect(() => {
-    fetch(config.PLANT_DB_URL_HOST+'/plants/'+plant_id+'.json')
-      .then((response) => response.json())
-      .then((json) => {setData(json);})
-      .catch((error) => console.error(error))
-      .finally(() => {setLoading(false);});
-  },[]);
+    const unsubscribe = navigation.addListener('focus', () => {
+      setLoading(true);
+      getPlant(plant_id)
+        .then((response) => response)
+        .then((json) => {setData(json);})
+        .catch((error) => console.error(error))
+        .finally(() => {setLoading(false);})
 
-  useEffect(() => {
-    getPlantInstance(plant_instance_id)
-      .then((response) => response)
-      .then((json) => {setPlantInstanceData(json);})
-      .catch((error) => console.error(error))
-      .finally(() => {setInstanceLoading(false);});
-  },[]);
+      getPlantInstance(plant_instance_id)
+        .then((response) => response)
+        .then((json) => {setPlantInstanceData(json);})
+        .catch((error) => console.error(error))
+        .finally(() => {setInstanceLoading(false);});
+        }
+  ,[navigation])});
+
+
 
   return (
      
@@ -59,8 +64,9 @@ function GrowthDetailScreen({ route, navigation }) {
           </View>
           <Text style={styles.bold}>Location:</Text>
           <Text>{plantInstanceData.location.name} - {plantInstanceData.high_level_location.name} </Text>
-          <AddObservationButton plant_id={plant_id} plant_instance_id={plant_instance_id} plant_stages={plantInstanceData.stages} />
-          
+          {plantInstanceData.stages.length >0 && 
+            <AddObservationButton plant_id={plant_id} plant_instance_id={plant_instance_id} plant_stages={plantInstanceData.stages} />
+          }
         </View>
       )}
       

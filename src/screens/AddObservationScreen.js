@@ -37,7 +37,7 @@ function App({route, navigation}) {
   ]);
 
   const submit = () => {
-    imageName = pickedImagePath.uri.split('/')[pickedImagePath.uri.split('/').length - 1]
+    const imageName = pickedImagePath.uri.split('/')[pickedImagePath.uri.split('/').length - 1]
     add_observation(plant_instance_id, date, value, pickedImagePath, imageName)
       .then(async (res) => {
         console.log('response in observation ' + JSON.stringify(res))
@@ -246,3 +246,5 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
+
+//https://hossein-zare.github.io/react-native-dropdown-picker-website/

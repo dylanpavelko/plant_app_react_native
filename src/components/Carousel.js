@@ -21,6 +21,7 @@ function Slide({ data }) {
         justifyContent: "center",
         alignItems: "center",
       }}
+      key={data[0]}
     >
       <Image
         source={{ uri: data[1] }}
@@ -67,7 +68,7 @@ export default function Carousel(data) {
     // Prevent one pixel triggering setIndex in the middle
     // of the transition. With this we have to scroll a bit
     // more to trigger the index change.
-    const isNoMansLand = 0.5 < distance;
+    const isNoMansLand = 0.4 < distance;
 
     if (roundIndex !== indexRef.current && !isNoMansLand) {
       setIndex(roundIndex);
@@ -80,7 +81,7 @@ export default function Carousel(data) {
     maxToRenderPerBatch: 1,
     removeClippedSubviews: true,
     scrollEventThrottle: 16,
-    windowSize: 2,
+    windowSize: 15,
     keyExtractor: useCallback(e => e.id, []),
     getItemLayout: useCallback(
       (_, index) => ({
@@ -96,8 +97,11 @@ export default function Carousel(data) {
   	<View>
     <FlatList
       data={data.pictures}
+      keyExtractor={(item, index) => {
+      	return index.toString();
+      }}
       renderItem={({ item }) => {
-        return <Slide data={item} />;
+        return <Slide data={item} key={item[0]} />;
       }}
       pagingEnabled
       horizontal

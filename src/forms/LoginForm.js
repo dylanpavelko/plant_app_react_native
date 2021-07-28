@@ -35,7 +35,7 @@ const LoginForm = ({ buttonText, onSubmit, children, onAuthentication }) => {
         value={email}
         keyboardType="email-address"
         placeholder="Email/Username..."
-        placeholderTextColor="#888" 
+        placeholderTextColor="#EEE" 
       />
       </View>
       <View style={styles.inputView}>
@@ -44,7 +44,7 @@ const LoginForm = ({ buttonText, onSubmit, children, onAuthentication }) => {
         onChangeText={(text) => onChangePassword(text)}
         value={password}
         placeholder="Password..." 
-        placeholderTextColor="#888" 
+        placeholderTextColor="#EEE" 
         secureTextEntry
       />
       </View>
