@@ -66,15 +66,21 @@ function App({route, navigation}) {
       return;
     }
 
-    const result = await ImagePicker.launchImageLibraryAsync({base64: true,});
+    const result = await ImagePicker.launchImageLibraryAsync({base64: true, exif: true});
 
     // Explore the result
-    console.log(result);
+    //console.log(result);
 
     if (!result.cancelled) {
       setPickedImagePath(result);
       console.log("selected image: ")
-      console.log(result);
+      console.log(result.exif);
+      var date_time = result.exif.DateTimeOriginal.split(" ");
+      var date_parts = date_time[0].split(":");
+      var time_parts = date_time[1].split(":");
+      var date = new Date(date_parts[0], date_parts[1] - 1, date_parts[2], time_parts[0], time_parts[1], time_parts[2]);
+      console.log(date);
+      setDate(date);
     }
   }
 
