@@ -9,8 +9,8 @@ export default function ResourceLink(props) {
       <View style={styles.button} >
         <TouchableOpacity
           onPress={(event) => Linking.openURL(uri)} >
-          <View>
-          <Text style={{color:'white'}}>{props.name}</Text>
+          <View style={{ flexDirection:'row', flex: 1, flexWrap: 'wrap', }}>
+            <Text style={{color:'white', }}>{props.name}</Text>
           </View>
         </TouchableOpacity>
       </View>

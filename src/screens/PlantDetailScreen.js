@@ -87,7 +87,7 @@ function PlantDetailScreen({ route, navigation }) {
                   <View style={{margin:10,}}>
                     <Text style={styles.bold}>Resources</Text>               
                      {data.resources.map((resource) => (
-                        <ResourceLink name={resource.name} link={resource.link} />
+                        <ResourceLink key={resource.id} name={resource.name} link={resource.link} />
                       ))}
                   </View>
             : null   

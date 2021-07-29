@@ -1,6 +1,6 @@
 // App.js 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
@@ -21,6 +21,7 @@ function App({route, navigation}) {
   const { plant_stages } = route.params;
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   // The path of the picked image
   const [pickedImagePath, setPickedImagePath] = useState('');
@@ -37,9 +38,11 @@ function App({route, navigation}) {
   ]);
 
   const submit = () => {
+    setLoading(true)
     const imageName = pickedImagePath.uri.split('/')[pickedImagePath.uri.split('/').length - 1]
     add_observation(plant_instance_id, date, value, pickedImagePath, imageName)
       .then(async (res) => {
+        setLoading(false);
         console.log('response in observation ' + JSON.stringify(res))
         navigation.navigate('Growth Details', {
           //plant_id: props.plant_id,
@@ -48,10 +51,11 @@ function App({route, navigation}) {
           //location: props.location
       })})
       .catch((res) => {
+        setLoading(false)
         if (res && res.error) {
           setErrorMessage(res.error);
         }
-        console.log(res)
+        console.log(res);
         setErrorMessage('Something went wrong');
       });
   };
@@ -127,10 +131,12 @@ function App({route, navigation}) {
 
       <View style={styles.imageContainer}>
         {
-          pickedImagePath !== '' && <Image
+          pickedImagePath !== '' ? <Image
             source={{ uri: pickedImagePath.uri }}
             style={styles.image}
           />
+          :
+          <Image source={require('./../../assets/box.png')} style={styles.photoPlaceholder} />
         }
       </View>
       <View style={styles.buttonContainer}>
@@ -205,6 +211,8 @@ function App({route, navigation}) {
           <Text style={appStyles.inputText}>Save</Text>
       </TouchableOpacity>
 
+      {isLoading ? <ActivityIndicator/> : null }
+
       {errorMessage ? <Text>{errorMessage}</Text> : null}
 
 
@@ -244,6 +252,12 @@ const styles = StyleSheet.create({
     marginRight: 10,
     alignItems: "stretch",
     justifyContent: "center"
+  },
+  photoPlaceholder: {
+    justifyContent:'center',
+    alignItems:"center",
+    height:100,
+    width:100,
   }
 });
 

@@ -26,6 +26,7 @@ function Slide({ data }) {
       <Image
         source={{ uri: data[1] }}
         style={{ width: windowWidth, height: windowHeight * 0.3 }}
+        loadingIndicatorSource={require('./../../assets/box.png')}
       ></Image>
     </View>
   );
@@ -98,7 +99,7 @@ export default function Carousel(data) {
     <FlatList
       data={data.pictures}
       keyExtractor={(item, index) => {
-      	return index.toString();
+      	return item[0];
       }}
       renderItem={({ item }) => {
         return <Slide data={item} key={item[0]} />;
