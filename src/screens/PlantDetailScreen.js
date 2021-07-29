@@ -78,8 +78,12 @@ function PlantDetailScreen({ route, navigation }) {
             
             <View style={{margin:10,}}>
               <Text style={styles.bold}>Your Growing Experience</Text>
-                {data.plant_instances.map((instance) => (
-                  <GrowthDetailButton key={instance.id} name={'Planted on '+ instance.planted_date} plant_id={instance.plant_id}  plant_instance_id={ instance.id }/>
+                {JSON.parse(data.plant_instances).map((instance) => (
+                  
+                    instance.planted_date ? <GrowthDetailButton key={instance.id} name={'Planted on '+ prettyDate(instance.planted_date) + " in " + instance.location.name} plant_id={instance.plant_id}  plant_instance_id={ instance.id }/>
+                    : instance.acquired_date ? <GrowthDetailButton key={instance.id} name={'Acquired on '+ prettyDate(instance.acquired_date) + " in " + instance.location.name} plant_id={instance.plant_id}  plant_instance_id={ instance.id }/>
+                    : <GrowthDetailButton key={instance.id} name={'Growing in ' + instance.location.name} plant_id={instance.plant_id}  plant_instance_id={ instance.id }/>
+                  
                 ))} 
             </View>
             
@@ -174,4 +178,10 @@ function TaxonomySection(props){
       </Text>
     </View>
   );
+}
+
+function prettyDate(date_string){
+  var jDate2 = new Date(date_string)
+  var jDate2 = new Date( jDate2.getTime() + ( jDate2.getTimezoneOffset() * 60000 ) );
+  return jDate2.toString().slice(4,15);
 }
