@@ -99,6 +99,11 @@ export default function Carousel(data) {
     <FlatList
       data={data.pictures}
       keyExtractor={(item, index) => {
+      	console.log("key extractor");
+      	console.log("item");
+      	console.log(item);
+      	console.log("index");
+      	console.log(index);
       	return item[0];
       }}
       renderItem={({ item }) => {

@@ -143,11 +143,11 @@ function App({route, navigation}) {
         <Button onPress={showImagePicker} title="Select an image" />
         <Button onPress={openCamera} title="Open camera" />
       </View>
-      <View>
-        <Text>Observation Date</Text>
+      <View style={styles.input}>
+        <Text style={{fontWeight:'bold'}}>Observation Date</Text>
         <DateTimePicker value={date} onChange={onChangeDate} mode='date' maximumDate={new Date()}/>
       </View>
-      <View >
+      <View style={styles.input}>
         <Text style={{fontWeight:'bold'}}>Growing Stage</Text>
         <Text>BBCH Code: {value}</Text>
         {/* add percent when you can add multiple stages in this one UI <Text>Percent at Stage</Text> */}
@@ -174,7 +174,7 @@ function App({route, navigation}) {
         searchable={true}
         placeholder="Select a growth stage"
         dropDownContainerStyle={{
-          backgroundColor: "#c4e5cf"
+          backgroundColor: "#c4e5cf",
         }}
         style={{
           backgroundColor: "#c4e5cf",
@@ -201,15 +201,13 @@ function App({route, navigation}) {
         <Text>Notes</Text>
       </View>
       */}
-      <View>
-        <Text>Plant Instance:</Text>
-        <Text> {plant_instance_id} </Text>
+      <View style={{alignItems: 'center'}}>
+        <TouchableOpacity 
+        style={appStyles.loginBtn}
+        onPress={submit}>
+            <Text style={appStyles.inputText}>Save</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity 
-      style={appStyles.loginBtn}
-      onPress={submit}>
-          <Text style={appStyles.inputText}>Save</Text>
-      </TouchableOpacity>
 
       {isLoading ? <ActivityIndicator/> : null }
 
@@ -258,6 +256,10 @@ const styles = StyleSheet.create({
     alignItems:"center",
     height:100,
     width:100,
+    margin:30,
+  },
+  input: {
+    margin: 10
   }
 });
 

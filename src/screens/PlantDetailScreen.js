@@ -51,20 +51,21 @@ function PlantDetailScreen({ route, navigation }) {
               <TaxonomySection label="Variety" name={data.variety? data.variety.name : ''} />
             }
             
-            <TaxonomySection label="Species" name={data.species? data.species.name : ''} />
-            <TaxonomySection label="Genus" name={data.genus? data.genus.name : ''} />
-            <TaxonomySection label="Family" name={data.family? data.family.name : ''} />
-            <TaxonomySection label="Order" name={data.order? data.order.name : ''} />
-            <TaxonomySection label="Class" name={data.plant_class? data.plant_class.name : ''} />
-            <TaxonomySection label="Division" name={data.division? data.division.name : ''} />
             <TaxonomySection label="Kingdom" name={data.kingdom? data.kingdom.name : ''} />
+            <TaxonomySection label="Division" name={data.division? data.division.name : ''} />
+            <TaxonomySection label="Class" name={data.plant_class? data.plant_class.name : ''} />
+            <TaxonomySection label="Order" name={data.order? data.order.name : ''} />
+            <TaxonomySection label="Family" name={data.family? data.family.name : ''} />
+            <TaxonomySection label="Genus" name={data.genus? data.genus.name : ''} />
+            <TaxonomySection label="Species" name={data.species? data.species.name : ''} />
+            
           </View>
             <View style={{ width: '100%' }}>
                <View style={{margin:10}}>
               <Text style={styles.bold}>Description</Text>
             </View>
 
-            { data.growing_recommendations?  
+            { data.growing_recommendations.size > 0 ?  
             <View style={{margin:10,}}>
                  <Text style={styles.bold}>Local Growing Recommendations</Text>
                   <Text>Plant during:</Text>
@@ -87,7 +88,7 @@ function PlantDetailScreen({ route, navigation }) {
                 ))} 
             </View>
             
-            { data.resources? 
+            { data.resources.size > 0? 
                   <View style={{margin:10,}}>
                     <Text style={styles.bold}>Resources</Text>               
                      {data.resources.map((resource) => (

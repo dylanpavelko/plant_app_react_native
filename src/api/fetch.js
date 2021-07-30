@@ -21,7 +21,7 @@ const getHeaders = async () => {
 
 export const post = async (destination, body) => {
   const headers = await getHeaders();
-  console.log("destination " + destination)
+  //console.log("destination " + destination)
   console.log("body" + JSON.stringify(headers))
   const result = await fetch(`${API_URL}${destination}`, {
     method: 'POST',
@@ -38,7 +38,7 @@ export const post = async (destination, body) => {
 
 export const get = async (destination) => {
   const headers = await getHeaders();
-  console.log("getting headers & token " + await getToken())
+  //console.log("getting headers & token " + await getToken())
   const result = await fetch(`${API_URL}${destination}`, {
     method: 'GET',
     headers,
