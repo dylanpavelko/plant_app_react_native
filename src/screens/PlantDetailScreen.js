@@ -5,6 +5,7 @@ import config from './../../config';
 import styles from './../styles/app.style.js';
 import ResourceLink from './../components/ResourceLink';
 import GrowthDetailButton from  './../components/NavigationButton';
+import AddPlantInstanceButton from  './../components/AddPlantInstanceButton';
 
 
 
@@ -65,7 +66,7 @@ function PlantDetailScreen({ route, navigation }) {
               <Text style={styles.bold}>Description</Text>
             </View>
 
-            { data.growing_recommendations.size > 0 ?  
+            { data.growing_recommendations =! [] ?  
             <View style={{margin:10,}}>
                  <Text style={styles.bold}>Local Growing Recommendations</Text>
                   <Text>Plant during:</Text>
@@ -76,7 +77,7 @@ function PlantDetailScreen({ route, navigation }) {
             : null
           }
 
-            
+            { data.plant_instances ?
             <View style={{margin:10,}}>
               <Text style={styles.bold}>Your Growing Experience</Text>
                 {JSON.parse(data.plant_instances).map((instance) => (
@@ -85,10 +86,13 @@ function PlantDetailScreen({ route, navigation }) {
                     : instance.acquired_date ? <GrowthDetailButton key={instance.id} name={'Acquired on '+ prettyDate(instance.acquired_date) + " in " + instance.location.name} plant_id={instance.plant_id}  plant_instance_id={ instance.id }/>
                     : <GrowthDetailButton key={instance.id} name={'Growing in ' + instance.location.name} plant_id={instance.plant_id}  plant_instance_id={ instance.id }/>
                   
-                ))} 
+                ))}
+                <AddPlantInstanceButton name='Add New Plant to My Plants List' plant_id={plant_id} />
             </View>
+            : null
+          }
             
-            { data.resources.size > 0? 
+            { data.resources ? 
                   <View style={{margin:10,}}>
                     <Text style={styles.bold}>Resources</Text>               
                      {data.resources.map((resource) => (

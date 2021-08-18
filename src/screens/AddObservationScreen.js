@@ -25,6 +25,7 @@ function App({route, navigation}) {
 
   // The path of the picked image
   const [pickedImagePath, setPickedImagePath] = useState('');
+  const [imageName, setImageName] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState();
   const [selectedStage, setStage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -39,7 +40,9 @@ function App({route, navigation}) {
 
   const submit = () => {
     setLoading(true)
-    const imageName = pickedImagePath.uri.split('/')[pickedImagePath.uri.split('/').length - 1]
+    if(pickedImagePath != ''){
+      setImageName(pickedImagePath.uri.split('/')[pickedImagePath.uri.split('/').length - 1])
+    }
     add_observation(plant_instance_id, date, value, pickedImagePath, imageName)
       .then(async (res) => {
         setLoading(false);

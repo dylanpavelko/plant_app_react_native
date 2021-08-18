@@ -81,6 +81,7 @@ render() {
     <Button title="Plant Library" onPress={() => this.props.navigation.navigate('Plant Library')} color="tan" />
     <Text style={styles.title} >Plant Tracker</Text>
     <Text>{ config.PLANT_DB_URL_HOST + '/plants.json'}</Text>
+    <Text>Observe. Share. Learn. Grow.</Text>
     <Button title="My Plants" onPress={() => this.props.navigation.navigate('My Plants')} color="tan" />
 
     {this.state.hasLoadedUsers ? (
