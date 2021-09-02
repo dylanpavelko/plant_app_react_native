@@ -1,12 +1,15 @@
-import React, { useState }  from 'react';
+import React, { useState, useEffect }  from 'react';
 import { Button, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import styles from './../styles/app.style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
-
+import { getUsersLocations } from '../api/users_locations';
 
 
 export default function AddPlantInstance({ route, navigation }) {
+  const [loading, setLoading]= useState(false)
+  const [locations, setLocations] = useState()
+
   const [date, setDate] = useState(new Date());
 
   const [seedSelected, setSeed]= useState(false)
@@ -38,6 +41,17 @@ export default function AddPlantInstance({ route, navigation }) {
   	}
   }
 
+    useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setLoading(true);
+      getUsersLocations()
+        .then((response) => JSON.parse(response))
+        .then((json) => {setLocations(json);})
+        .catch((error) => console.error(error))
+        .finally(() => {setLoading(false);})
+        }
+  ,[navigation])});
+
  return (
   <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.background}>
 
@@ -63,12 +77,16 @@ export default function AddPlantInstance({ route, navigation }) {
     <DateTimePicker value={date} onChange={onChangeDate} mode='date' maximumDate={new Date()}/>
 
     <Text style={{fontWeight:'bold'}}>Where is this plant going to grow?</Text>
+
     <Picker selectedValue={selectedLocation}
     	onValueChange={(itemValue, itemIndex) =>
     		setLocation(itemValue) 
     }>
-    	<Picker.Item label="Outside" value="out" />
-    	<Picker.Item label="Inside" value="in" />
+
+
+       {locations.map((location) => (
+          <Picker.Item label={location.name} key={location.id} value={location.id} />
+        ))}
     	<Picker.Item label="Add a New Location" value="new" />
     </Picker>
 
@@ -76,6 +94,8 @@ export default function AddPlantInstance({ route, navigation }) {
     	<View>
     	<Text style={{fontWeight:'bold'}}>New Location Name:</Text>
     	<TextInput style={styles2.input} onChangeText={setLocationName} value={locationName} placeholder='Enter Name of Location You Will Grow this Plant' />
+      <Text>Indoors or Outdoors?</Text>
+      <Text>Belongs to High Level Location</Text>
     	</View>
 	: null }
 
