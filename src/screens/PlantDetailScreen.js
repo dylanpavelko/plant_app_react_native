@@ -1,22 +1,34 @@
 import React, { useEffect, useState }  from 'react';
 import { ActivityIndicator, Button, View, ScrollView, Text, Image, TouchableOpacity } from 'react-native';
+
+import Animated from 'react-native-reanimated';
+import BottomSheet from 'reanimated-bottom-sheet';
+
 import { getPlant } from '../api/my_plants';
+import { getUsersLocations } from '../api/users_locations';
+
 import config from './../../config';
 import styles from './../styles/app.style.js';
 import ResourceLink from './../components/ResourceLink';
 import GrowthDetailButton from  './../components/NavigationButton';
 import AddPlantInstanceButton from  './../components/AddPlantInstanceButton';
+import AddPlantInstanceForm from './../forms/AddPlantInstanceForm'
 
 
 
 function PlantDetailScreen({ route, navigation }) {
   const { name } = route.params;
   const { plant_id } = route.params;
+
+  const [locations, setLocations] = useState()
+  const [highLevelLocations, setHighLevelLocations] = useState()
+
   const { plant_instance_id } = route.params;
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isLoadingOpenFarm, setLoadingOpenFarm] = useState(true);
   const [dataOpenFarm, setDataOpenFarm] = useState([]);
+
 
 
   useEffect(() => {
@@ -31,8 +43,33 @@ function PlantDetailScreen({ route, navigation }) {
   ,[navigation])});
 
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setLoading(true);
+      getUsersLocations()
+        .then((response) => response)
+        .then((json) => {setLocations(json.locations);setHighLevelLocations(json.high_level_locations);})
+        .catch((error) => console.error(error))
+        .finally(() => {setLoading(false);})
+        }
+  ,[navigation])});
+
+  const renderContent = () => (
+    <View
+      style={{
+        backgroundColor: '#FEFAE2',
+        padding: 16,
+        height: 450,
+      }}
+    >
+      { isLoading ? <ActivityIndicator/> : <AddPlantInstanceForm navigation={navigation} plant_id={plant_id} locations={locations} highLevelLocations={highLevelLocations} /> }
+
+    </View>
+  );
+  const sheetRef = React.useRef(null);
+
   return (
-     
+  <>   
   <View style={styles.background}>
     
        {(isLoading && isLoadingOpenFarm) ? <ActivityIndicator/> : (
@@ -76,6 +113,10 @@ function PlantDetailScreen({ route, navigation }) {
             </View>
             : null
           }
+ <Button
+          title="Open Bottom Sheet"
+          onPress={() => sheetRef.current.snapTo(2)}
+        />
 
             { data.plant_instances ?
             <View style={{margin:10,}}>
@@ -87,7 +128,7 @@ function PlantDetailScreen({ route, navigation }) {
                     : <GrowthDetailButton key={instance.id} name={'Growing in ' + instance.location.name} plant_id={instance.plant_id}  plant_instance_id={ instance.id }/>
                   
                 ))}
-                <AddPlantInstanceButton name='Add New Plant to My Plants List' plant_id={plant_id} />
+                <AddPlantInstanceButton name='Add to My Plants List' plant_id={plant_id} plant_data={ data } />
             </View>
             : null
           }
@@ -113,6 +154,13 @@ function PlantDetailScreen({ route, navigation }) {
 
     </View>
   </View>
+  <BottomSheet
+        ref={sheetRef}
+        snapPoints={[0, 300, 450]}
+        borderRadius={10}
+        renderContent={renderContent}
+      />
+  </>
 );
 }
 

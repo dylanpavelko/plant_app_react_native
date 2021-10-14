@@ -1,26 +1,35 @@
 import React, { useState, useEffect }  from 'react';
-import { Button, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet } from 'react-native';
+import { Button, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, StyleSheet, ScrollView } from 'react-native';
 import styles from './../styles/app.style';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
 import { getUsersLocations } from '../api/users_locations';
 import PlantHeader from '../components/PlantHeader';
 
+import { add_plant_instance } from '../api/my_plants';
 
-export default function AddPlantInstance({ route, navigation }) {
-  const { plant_id } = route.params.plant_id;
-  const { plant_data } = route.params;
+
+const AddPlantInstanceForm = ({ navigation, plant_id, locations, highLevelLocations }) => {
+
+
   const [loading, setLoading]= useState(false)
-  const [locations, setLocations] = useState()
 
   const [date, setDate] = useState(new Date());
 
   const [seedSelected, setSeed]= useState(false)
   const [propSelected, setProp]= useState(false)
   const [plantSelected, setPlant]= useState(false)
+  const [propType, setPropType]=useState()
 
-  const [selectedLocation, setLocation]= useState()
+  const [indoorSelected, setIndoor]= useState(true)
+  const [outdoorSelected, setOutdoor]= useState(false)
+
+  const [selectedLocation, setLocation]= useState(locations[0].id)
+  const [selectedHighLevelLocation, setHighLevelLocation]= useState(highLevelLocations[0].id)
   const [locationName, setLocationName] = useState('')
+
+  const [errorMessage, setErrorMessage] = useState('');
+
 
   const onChangeDate = (event, selectedDate) => {
 	  const currentDate = selectedDate || date;
@@ -44,24 +53,56 @@ export default function AddPlantInstance({ route, navigation }) {
   	}
   }
 
-    useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setLoading(true);
-      getUsersLocations()
-        .then((response) => response)
-        .then((json) => {setLocations(json);})
-        .catch((error) => console.error(error))
-        .finally(() => {setLoading(false);})
+
+  const onChangeLocType = (event, selectedType) => {
+    if(event == "indoor"){
+      setIndoor(true);
+      setOutdoor(false);
+    }else if(event == "outdoor"){
+      setIndoor(false);
+      setOutdoor(true);
+    }
+  }
+
+
+  const submit = () => {
+    setLoading(true)
+    if(seedSelected){
+      setPropType(1);
+
+    }else if(propSelected){
+      setPropType(2);
+    }else{
+      setPropType();
+    }
+
+    add_plant_instance(plant_id, date, propType, selectedLocation, locationName, indoorSelected, selectedHighLevelLocation)
+      .then(async (res) => {
+        setLoading(false);
+        console.log('response in observation ' + JSON.stringify(res))
+        navigation.navigate('Growth Details', {
+          plant_id: plant_id,
+          plant_instance_id: res.id,
+          //name: props.name,
+          //location: props.location
+      })})
+      .catch((res) => {
+        setLoading(false)
+        if (res && res.error) {
+          setErrorMessage(res.error);
         }
-  ,[navigation])});
+        console.log(res);
+        setErrorMessage('Something went wrong');
+      });
+  };
 
  return (
-  <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.background}>
 
-
-    <Text>
-      {route.params.plant_resfdsafad}
-    </Text>
+  <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} >
+  <ScrollView style={{marginBottom:50}}>
+    <Text style={{fontWeight:'bold'}}>When did you start growing this plant?</Text>
+    <DateTimePicker value={date} onChange={onChangeDate} mode='date' maximumDate={new Date()}/>
+    <Text></Text>
 
     <Text style={{fontWeight:'bold'}}>What are you starting from?</Text>
     <TouchableOpacity style={styles2.radioOption} onPress={() => onChangePropType('seed')}>
@@ -78,8 +119,6 @@ export default function AddPlantInstance({ route, navigation }) {
     </TouchableOpacity>
 
 
-    <Text style={{fontWeight:'bold'}}>When did you start growing this plant?</Text>
-    <DateTimePicker value={date} onChange={onChangeDate} mode='date' maximumDate={new Date()}/>
 
     <Text style={{fontWeight:'bold'}}>Where is this plant going to grow?</Text>
 
@@ -102,16 +141,38 @@ export default function AddPlantInstance({ route, navigation }) {
     	<View>
     	<Text style={{fontWeight:'bold'}}>New Location Name:</Text>
     	<TextInput style={styles2.input} onChangeText={setLocationName} value={locationName} placeholder='Enter Name of Location You Will Grow this Plant' />
-      <Text>Indoors or Outdoors?</Text>
-      <Text>Belongs to High Level Location</Text>
+    
+      <Text style={{fontWeight:'bold'}}>Indoors or Outdoors?</Text>
+      <TouchableOpacity style={styles2.radioOption} onPress={() => onChangeLocType('indoor')}>
+        <RadioButton selected={indoorSelected}/> 
+        <Text style={styles2.radioOptionLabel}>Indoors</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles2.radioOption} onPress={() => onChangeLocType('outdoor')}>
+        <RadioButton selected={outdoorSelected}/> 
+        <Text style={styles2.radioOptionLabel}>Outdoors</Text>
+      </TouchableOpacity>
+
+
+      <Text style={{fontWeight:'bold'}}>Belongs to High Level Location:</Text>
+      <Picker selectedValue={selectedHighLevelLocation}
+          onValueChange={(itemValue, itemIndex) =>
+            setHighLevelLocation(itemValue) 
+        }>
+
+          {highLevelLocations != null ? 
+            highLevelLocations.map((hll) => (
+              <Picker.Item label={hll.name} key={hll.id} value={hll.id} />
+            ))
+            :
+             null 
+           }
+        </Picker>
     	</View>
 	: null }
-
+    </ScrollView>
 	  <View style={{alignItems:"center"}}>
       <View style={styles2.button} >
-        <TouchableOpacity
-          	onPress={() => navigation.navigate('Add Observation', {
-	      })} >
+        <TouchableOpacity	onPress={submit} >
           <View>
           <Text style={{color:'white'}}>Add Plant to My Plants List</Text>
           </View>
@@ -120,6 +181,7 @@ export default function AddPlantInstance({ route, navigation }) {
       </View>
 
   </KeyboardAvoidingView>
+
 );
 
 }
@@ -172,6 +234,9 @@ const styles2 = StyleSheet.create({
     justifyContent:"center",
     margin: 5,
     padding: 10,
+    bottom: 50,
     
   },
 });
+
+export default AddPlantInstanceForm;

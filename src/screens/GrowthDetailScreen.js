@@ -12,6 +12,7 @@ import { getPlant } from '../api/my_plants';
 
 
 
+
 function GrowthDetailScreen({ route, navigation }) {
   const { name } = route.params;
   const { location } = route.params;
