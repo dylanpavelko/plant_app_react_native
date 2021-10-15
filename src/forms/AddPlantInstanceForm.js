@@ -5,6 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
 import { getUsersLocations } from '../api/users_locations';
 import PlantHeader from '../components/PlantHeader';
+import ErrorText from '../components/ErrorText';
 
 import { add_plant_instance } from '../api/my_plants';
 
@@ -25,6 +26,8 @@ const AddPlantInstanceForm = ({ navigation, plant_id }) => {
 
   const [indoorSelected, setIndoor]= useState(true)
   const [outdoorSelected, setOutdoor]= useState(false)
+
+  const [missingField, setMissingField]= useState(false)
 
 
   const [locations, setLocations] = useState()
@@ -93,34 +96,44 @@ const AddPlantInstanceForm = ({ navigation, plant_id }) => {
 
 
   const submit = () => {
-    setLoading(true)
-    if(seedSelected){
-      setPropType(1);
-
-    }else if(propSelected){
-      setPropType(2);
+    if(!seedSelected && !propSelected && !plantSelected){
+      setMissingField(true)
+    }else if(selectedLocation == "new" && locationName == ""){
+      setMissingField(true)
     }else{
-      setPropType();
+    
+      setLoading(true)
+      if(seedSelected){
+        setPropType(1);
+      }else if(propSelected){
+        setPropType(2);
+      }else{
+        setPropType();
+      }
+
+      add_plant_instance(plant_id, date, propType, selectedLocation, locationName, indoorSelected, selectedHighLevelLocation)
+        .then(async (res) => {
+          setLoading(false);
+          console.log('response in observation ' + JSON.stringify(res))
+          navigation.navigate('Growth Details', {
+            plant_id: plant_id,
+            plant_instance_id: res.id,
+            //name: props.name,
+            //location: props.location
+        })})
+        .catch((res) => {
+          setLoading(false)
+          if (res && res.error) {
+            setErrorMessage(res.error);
+          }
+          console.log(res);
+          setErrorMessage('Something went wrong');
+        });
+      
     }
 
-    add_plant_instance(plant_id, date, propType, selectedLocation, locationName, indoorSelected, selectedHighLevelLocation)
-      .then(async (res) => {
-        setLoading(false);
-        console.log('response in observation ' + JSON.stringify(res))
-        navigation.navigate('Growth Details', {
-          plant_id: plant_id,
-          plant_instance_id: res.id,
-          //name: props.name,
-          //location: props.location
-      })})
-      .catch((res) => {
-        setLoading(false)
-        if (res && res.error) {
-          setErrorMessage(res.error);
-        }
-        console.log(res);
-        setErrorMessage('Something went wrong');
-      });
+    
+    
   };
 
  return (
@@ -141,9 +154,13 @@ const AddPlantInstanceForm = ({ navigation, plant_id }) => {
         <Text></Text>
 
         <Text style={{fontWeight:'bold'}}>What are you starting from?</Text>
+        {
+            (missingField && !seedSelected && !propSelected && !plantSelected) ? <ErrorText text='Select Required Option' /> : <></>
+        }
+        
         <TouchableOpacity style={styles2.radioOption} onPress={() => onChangePropType('seed')}>
     	 	<RadioButton selected={seedSelected} /> 
-       	 	<Text style={styles2.radioOptionLabel}>Growing from seed</Text>
+       	 	<Text style={styles2.radioOptionLabel}>Growing From Seed</Text>
        	</TouchableOpacity>
        	<TouchableOpacity style={styles2.radioOption} onPress={() => onChangePropType('prop')}>
         	<RadioButton selected={propSelected}/> 
@@ -173,6 +190,10 @@ const AddPlantInstanceForm = ({ navigation, plant_id }) => {
         { (selectedLocation == 'new')?
         	<View>
         	<Text style={{fontWeight:'bold'}}>New Location Name:</Text>
+          {
+            (missingField && locationName == "") ? <ErrorText text='Location Name Required' /> : <></>
+          }
+          
         	<TextInput style={styles2.input} onChangeText={setLocationName} value={locationName} placeholder='Enter Name of Location You Will Grow this Plant' />
         
           <Text style={{fontWeight:'bold'}}>Indoors or Outdoors?</Text>
