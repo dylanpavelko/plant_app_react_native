@@ -5,7 +5,7 @@ import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 import { getPlant } from '../api/my_plants';
-import { getUsersLocations } from '../api/users_locations';
+
 
 import config from './../../config';
 import styles from './../styles/app.style.js';
@@ -25,6 +25,7 @@ function PlantDetailScreen({ route, navigation }) {
 
   const { plant_instance_id } = route.params;
   const [isLoading, setLoading] = useState(true);
+  const [isLocationLoading, setLocationLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isLoadingOpenFarm, setLoadingOpenFarm] = useState(true);
   const [dataOpenFarm, setDataOpenFarm] = useState([]);
@@ -37,19 +38,13 @@ function PlantDetailScreen({ route, navigation }) {
       getPlant(plant_id)
         .then((response) => response)
         .then((json) => {setData(json);})
-        .catch((error) => console.error(error))
-        .finally(() => {setLoading(false);})
-        }
-  ,[navigation])});
-
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setLoading(true);
-      getUsersLocations()
-        .then((response) => response)
-        .then((json) => {setLocations(json.locations);setHighLevelLocations(json.high_level_locations);})
-        .catch((error) => console.error(error))
+        .catch((error) => {
+          if(error.error==401){
+            console.log("user not logged in")
+          }else{
+            console.error(error)
+          }
+        })
         .finally(() => {setLoading(false);})
         }
   ,[navigation])});
@@ -62,7 +57,7 @@ function PlantDetailScreen({ route, navigation }) {
         height: 450,
       }}
     >
-      { isLoading ? <ActivityIndicator/> : <AddPlantInstanceForm navigation={navigation} plant_id={plant_id} locations={locations} highLevelLocations={highLevelLocations} /> }
+    <AddPlantInstanceForm navigation={navigation} plant_id={plant_id}  />
 
     </View>
   );
@@ -113,11 +108,6 @@ function PlantDetailScreen({ route, navigation }) {
             </View>
             : null
           }
- <Button
-          title="Open Bottom Sheet"
-          onPress={() => sheetRef.current.snapTo(2)}
-        />
-
             { data.plant_instances ?
             <View style={{margin:10,}}>
               <Text style={styles.bold}>Your Growing Experience</Text>
@@ -128,7 +118,7 @@ function PlantDetailScreen({ route, navigation }) {
                     : <GrowthDetailButton key={instance.id} name={'Growing in ' + instance.location.name} plant_id={instance.plant_id}  plant_instance_id={ instance.id }/>
                   
                 ))}
-                <AddPlantInstanceButton name='Add to My Plants List' plant_id={plant_id} plant_data={ data } />
+                <AddPlantInstanceButton name='Add to My Plants List' sheetRef={sheetRef} />
             </View>
             : null
           }

@@ -9,11 +9,7 @@ export default function AddPlantInstanceButton(props) {
     return (
       <View style={styles.button} >
         <TouchableOpacity
-          	onPress={() => navigation.navigate('Add Plant Instance', {
-	        plant_id: props.plant_id,
-	        name: props.name,
-	        location: props.location
-	      })} >
+          	onPress={() => props.sheetRef.current.snapTo(2)} >
           <View>
           <Text style={{color:'white'}}>{props.name}</Text>
           </View>
