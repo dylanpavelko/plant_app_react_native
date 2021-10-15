@@ -125,16 +125,16 @@ const AddPlantInstanceForm = ({ navigation, plant_id }) => {
 
  return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} >
-    { isLocationLoading ? <ActivityIndicator/> : <>
-      { highLevelLocations.length == 0 ? (
+    { isLocationLoading ? <ActivityIndicator/> : 
+      <>
+      { highLevelLocations.length == 0 ? 
         <View>
           <Text>To the growth of your plants you must first log in.</Text>
           <Button title="Log In / Create Account" onPress={() => navigation.navigate('Log In')} />
         </View>
-) : (
-        <View>
-    <ScrollView style={{marginBottom:50}}>
-      
+      : 
+      <>
+      <ScrollView style={{marginBottom:50}}>
         
         <Text style={{fontWeight:'bold'}}>When did you start growing this plant?</Text>
         <DateTimePicker value={date} onChange={onChangeDate} mode='date' maximumDate={new Date()}/>
@@ -155,71 +155,71 @@ const AddPlantInstanceForm = ({ navigation, plant_id }) => {
         </TouchableOpacity>
 
 
+        <Text style={{fontWeight:'bold'}}>Where is this plant going to grow?</Text>
+        <Picker selectedValue={selectedLocation}
+        	onValueChange={(itemValue, itemIndex) =>
+        		setLocation(itemValue) 
+        }>
+          {locations != null ? 
+            locations.map((location) => (
+              <Picker.Item label={location.name} key={location.id} value={location.id} />
+            ))
+            :
+             null 
+           }
+        	<Picker.Item label="Add a New Location" value="new" />
+        </Picker>
 
-      <Text style={{fontWeight:'bold'}}>Where is this plant going to grow?</Text>
+        { (selectedLocation == 'new')?
+        	<View>
+        	<Text style={{fontWeight:'bold'}}>New Location Name:</Text>
+        	<TextInput style={styles2.input} onChangeText={setLocationName} value={locationName} placeholder='Enter Name of Location You Will Grow this Plant' />
+        
+          <Text style={{fontWeight:'bold'}}>Indoors or Outdoors?</Text>
+          <TouchableOpacity style={styles2.radioOption} onPress={() => onChangeLocType('indoor')}>
+            <RadioButton selected={indoorSelected}/> 
+            <Text style={styles2.radioOptionLabel}>Indoors</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles2.radioOption} onPress={() => onChangeLocType('outdoor')}>
+            <RadioButton selected={outdoorSelected}/> 
+            <Text style={styles2.radioOptionLabel}>Outdoors</Text>
+          </TouchableOpacity>
 
-      <Picker selectedValue={selectedLocation}
-      	onValueChange={(itemValue, itemIndex) =>
-      		setLocation(itemValue) 
-      }>
 
-        {locations != null ? 
-          locations.map((location) => (
-            <Picker.Item label={location.name} key={location.id} value={location.id} />
-          ))
-          :
-           null 
-         }
-      	<Picker.Item label="Add a New Location" value="new" />
-      </Picker>
+          <Text style={{fontWeight:'bold'}}>Belongs to High Level Location:</Text>
+          <Picker selectedValue={selectedHighLevelLocation}
+              onValueChange={(itemValue, itemIndex) =>
+                setHighLevelLocation(itemValue) 
+            }>
 
-      { (selectedLocation == 'new')?
-      	<View>
-      	<Text style={{fontWeight:'bold'}}>New Location Name:</Text>
-      	<TextInput style={styles2.input} onChangeText={setLocationName} value={locationName} placeholder='Enter Name of Location You Will Grow this Plant' />
+              {highLevelLocations != null ? 
+                highLevelLocations.map((hll) => (
+                  <Picker.Item label={hll.name} key={hll.id} value={hll.id} />
+                ))
+                :
+                 null 
+               }
+            </Picker>
+        	</View>
+    	: null }
       
-        <Text style={{fontWeight:'bold'}}>Indoors or Outdoors?</Text>
-        <TouchableOpacity style={styles2.radioOption} onPress={() => onChangeLocType('indoor')}>
-          <RadioButton selected={indoorSelected}/> 
-          <Text style={styles2.radioOptionLabel}>Indoors</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles2.radioOption} onPress={() => onChangeLocType('outdoor')}>
-          <RadioButton selected={outdoorSelected}/> 
-          <Text style={styles2.radioOptionLabel}>Outdoors</Text>
-        </TouchableOpacity>
-
-
-        <Text style={{fontWeight:'bold'}}>Belongs to High Level Location:</Text>
-        <Picker selectedValue={selectedHighLevelLocation}
-            onValueChange={(itemValue, itemIndex) =>
-              setHighLevelLocation(itemValue) 
-          }>
-
-            {highLevelLocations != null ? 
-              highLevelLocations.map((hll) => (
-                <Picker.Item label={hll.name} key={hll.id} value={hll.id} />
-              ))
-              :
-               null 
-             }
-          </Picker>
-      	</View>
-  	: null }
+      
     
-    
-  
       </ScrollView>
-  	  <View style={{alignItems:"center"}}>
+      <View style={{alignItems:"center"}}>
         <View style={styles2.button} >
-          <TouchableOpacity	onPress={submit} >
-            <View>
+          <TouchableOpacity onPress={submit} >
             <Text style={{color:'white'}}>Add Plant to My Plants List</Text>
-            </View>
           </TouchableOpacity>
         </View>
         </View>
-    </View>
-    )}</>}
+        </>
+
+    }
+    </>}
+
+  	  
+
     </KeyboardAvoidingView>
   
 );
