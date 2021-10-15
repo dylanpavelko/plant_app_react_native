@@ -11,7 +11,7 @@ export const add_observation = (plant_instance_id, observation_date, bbch_stage_
     console.log('image data');
     console.log(picture.data);
     return post('/add_growth_observation_from_api', {
-      plant_instance_id, observation_date, bbch_stage_id, picture: {picture, name: fileName, type: fileType},
+      plant_instance_id, observation_date, bbch_stage_id, picture: {picture, name: "test", type: fileType},
     });
   }else{
     return post('/add_growth_observation_from_api', {

@@ -9,6 +9,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 
 import BBCHSlider from './../components/BBCHSlider';
+import ErrorText from '../components/ErrorText';
 
 import { add_observation } from '../api/observation';
 
@@ -32,35 +33,36 @@ function App({route, navigation}) {
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    {label: 'Apple', value: 'apple'},
-    {label: 'Fruit Ripens', value: '60'},
-    {label: 'Fruit Ripens - Fully ripe; all pods dry and brown. Seeds dry and hard', value: 'banana', parent: '60'}
-  ]);
+  const [items, setItems] = useState();
+  const [missingField, setMissingField] = useState(false);
 
   const submit = () => {
-    setLoading(true)
-    if(pickedImagePath != ''){
-      setImageName(pickedImagePath.uri.split('/')[pickedImagePath.uri.split('/').length - 1])
-    }
-    add_observation(plant_instance_id, date, value, pickedImagePath, imageName)
-      .then(async (res) => {
-        setLoading(false);
-        console.log('response in observation ' + JSON.stringify(res))
-        navigation.navigate('Growth Details', {
-          //plant_id: props.plant_id,
-          plant_instance_id: plant_instance_id,
-          //name: props.name,
-          //location: props.location
-      })})
-      .catch((res) => {
-        setLoading(false)
-        if (res && res.error) {
-          setErrorMessage(res.error);
-        }
-        console.log(res);
-        setErrorMessage('Something went wrong');
-      });
+    if(!value){
+      setMissingField(true)
+    }else{
+      setLoading(true)
+      if(pickedImagePath != ''){
+        setImageName(pickedImagePath.uri.split('/')[pickedImagePath.uri.split('/').length - 1])
+      }
+      add_observation(plant_instance_id, date, value, pickedImagePath, imageName)
+        .then(async (res) => {
+          setLoading(false);
+          console.log('response in observation ' + JSON.stringify(res))
+          navigation.navigate('Growth Details', {
+            //plant_id: props.plant_id,
+            plant_instance_id: plant_instance_id,
+            //name: props.name,
+            //location: props.location
+        })})
+        .catch((res) => {
+          setLoading(false)
+          if (res && res.error) {
+            setErrorMessage(res.error);
+          }
+          console.log(res);
+          setErrorMessage('Something went wrong');
+        });
+      }
   };
 
   // This function is triggered when the "Select an image" button pressed
@@ -153,6 +155,9 @@ function App({route, navigation}) {
       <View style={styles.input}>
         <Text style={{fontWeight:'bold'}}>Growing Stage</Text>
         <Text>BBCH Code: {value}</Text>
+        {
+            (missingField && !value) ? <ErrorText text='Select Required Option' /> : <></>
+        }
         {/* add percent when you can add multiple stages in this one UI <Text>Percent at Stage</Text> */}
       </View>
       
