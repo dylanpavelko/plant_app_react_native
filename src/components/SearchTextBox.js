@@ -23,6 +23,8 @@ export default function SearchTextBox(props) {
         console.error(error)
       })
       // .finally(() => {setLoading(false);})
+    }else{
+      props.reset(text)
     }
  
   }

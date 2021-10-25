@@ -46,6 +46,10 @@ export default class PlantLibraryScreen extends React.Component {
     this.setState({filteredData:filteredData})
   }
 
+  reset = plants => {
+    this.setState({filteredData:this.state.data})
+  }
+
   // const onRefresh = React.useCallback(() => {
   //   setRefreshing(true);
   //   fetch(config.PLANT_DB_URL_HOST+'/plants.json')
@@ -78,7 +82,7 @@ export default class PlantLibraryScreen extends React.Component {
   render(){
     return (
       <View style={styles.library}>
-        <SearchTextBox update = {this.update} />
+        <SearchTextBox update = {this.update} reset = {this.reset} />
 
 
           <View style={{width: '100%', flex: 1}}>
