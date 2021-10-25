@@ -83,7 +83,7 @@ export default class PlantLibraryScreen extends React.Component {
 
           <View style={{width: '100%', flex: 1}}>
           
-            <PlantGrid data={this.state.filteredData} navigation={this.state.navigation} /> 
+            <PlantGrid data={this.state.filteredData} navigation={this.props.navigation} /> 
           </View>
     </View>
       
