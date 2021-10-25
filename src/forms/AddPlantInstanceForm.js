@@ -140,7 +140,7 @@ const AddPlantInstanceForm = ({ navigation, plant_id }) => {
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} >
     { isLocationLoading ? <ActivityIndicator/> : 
       <>
-      { highLevelLocations.length == 0 ? 
+      { highLevelLocations == undefined ? 
         <View>
           <Text>To the growth of your plants you must first log in.</Text>
           <Button title="Log In / Create Account" onPress={() => navigation.navigate('Log In')} />

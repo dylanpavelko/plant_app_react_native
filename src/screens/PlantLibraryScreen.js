@@ -1,61 +1,94 @@
 import React, { useEffect, useState }  from 'react';
-import { ActivityIndicator, Button, View, Text, FlatList, Image, Dimensions, ScrollView, RefreshControl } from 'react-native';
+import { ActivityIndicator, Button, View, Text, FlatList, Image, Dimensions, ScrollView, RefreshControl, TextInput } from 'react-native';
 import styles from './../styles/app.style';
-import PlantLibraryCard from './../components/PlantLibraryCard';
+import PlantGrid from './../components/PlantGrid';
 import FooterNavigation from './../components/FooterNavigation';
+import SearchTextBox from './../components/SearchTextBox';
+
 import config from './../../config';
 
+import { search_plants } from '../api/my_plants';
 
 
+export default class PlantLibraryScreen extends React.Component {
+// export default function PlantLibraryScreen({ route, navigation }) {
+  constructor(props){
+    super(props);
+    this.state = { isLoading: true,
+                   data: [],
+                   filteredData: [] }
+    // const [isLoading, setLoading] = useState(true);
+  //   const [data, setData] = useState([]);
+  //   const [filteredData, setFilteredData] = useState([]);
 
-export default function PlantLibraryScreen({ route, navigation }) {
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [refreshing, setRefreshing] = React.useState(false);
+  //   const [refreshing, setRefreshing] = React.useState(false);
 
-  useEffect(() => {
-    fetch(config.PLANT_DB_URL_HOST+'/plants.json')
+  //   const [query, setQuery] = useState('')
+  //   const [fullData, setFullData] = useState([])
+  }
+  
+
+  componentDidMount(){
+    return fetch(config.PLANT_DB_URL_HOST+'/plants.json')
       .then((response) => response.json())
-      .then((json) => {setData(json.plants);})
-      .catch((error) => console.error(error))
-      .finally(() => {setLoading(false);});
-  },[]);
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    fetch(config.PLANT_DB_URL_HOST+'/plants.json')
-      .then((response) => response.json())
-      .then((json) => {setData(json.plants);})
-      .catch((error) => console.error(error))
-      .finally(() => {setLoading(false); setRefreshing(false)});
-  }, []);
-
- return (
-  <View style={styles.library}>
-
-   {isLoading ? <ActivityIndicator/> : (
-        <FlatList
-          data={data}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-            />
+      .then((json) => {
+        this.setState(
+          {
+            data: json.plants,
+            filteredData: json.plants
           }
-          numColumns={3}
-          keyExtractor={({ id }, index) => id.toString()}
-          renderItem={({ item }) => (
-            <PlantLibraryCard
-              id={item.id.toString()} 
-              scientific_name_with_common_names={item.scientific_name_with_common_names} 
-              image_url={item.image_url}
-              nav={navigation}
-            />
-          )}
-        />
+          )})
+      .catch((error) => console.error(error))
+      .finally(() => {this.state.isLoading=false});
+  }
+
+  update = filteredData => {
+    this.setState({filteredData:filteredData})
+  }
+
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
+  //   fetch(config.PLANT_DB_URL_HOST+'/plants.json')
+  //     .then((response) => response.json())
+  //     .then((json) => {setData(json.plants);
+  //       setFilteredData(json.plants)})
+  //     .catch((error) => console.error(error))
+  //     .finally(() => {setLoading(false); setRefreshing(false)});
+  // }, []);
+
+  // const handleSearch = text => {
+  //   setQuery(text)
+  //   console.log(text)
+  //   if(text.length >= 2){
+  //     setLoading(true);
+  //     search_plants(text)
+  //     .then((response) => response)
+  //     .then((json) => {
+  //       console.log(json);
+  //       setFilteredData(json)
+  //     })
+  //     .catch((error) => {
+  //       console.error(error)
+  //     })
+  //     .finally(() => {setLoading(false);})
+  //   }
+ 
+  // }
+
+  render(){
+    return (
+      <View style={styles.library}>
+        <SearchTextBox update = {this.update} />
+
+
+          <View style={{width: '100%', flex: 1}}>
+          
+            <PlantGrid data={this.state.filteredData} navigation={this.state.navigation} /> 
+          </View>
+    </View>
+      
+
       )}
     
-  </View>
-);
-
 }
+ 

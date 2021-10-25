@@ -36,6 +36,23 @@ export const post = async (destination, body) => {
   throw { error: result.status };
 };
 
+export const get_with_params = async (destination, body) => {
+  const headers = await getHeaders();
+  //console.log("getting headers & token " + await getToken())
+  const result = await fetch(`${API_URL}${destination}`, {
+    method: 'GET',
+    headers,
+    body: JSON.stringify(body),
+  });
+
+  if (result.ok) {
+    console.log("get result ok")
+    return await result.json();
+  }
+
+  throw { error: result.status };
+};
+
 export const get = async (destination) => {
   const headers = await getHeaders();
   //console.log("getting headers & token " + await getToken())

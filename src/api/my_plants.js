@@ -1,4 +1,4 @@
-import { get, post } from './fetch';
+import { get, get_with_params, post } from './fetch';
 
 export const getMyPlants = () => {
   return get('/my_plants_api');
@@ -18,6 +18,9 @@ export const add_plant_instance = (plant_id, planted_date, propagation_type, loc
     });
 };
 
+export const search_plants = (search) => {
+  return get('/search?query='+search);
+}
 
 // export const add_observation = (plant_instance_id, observation_date, bbch_stage_id, picture, fileName) => {
 //   if(picture != ''){
