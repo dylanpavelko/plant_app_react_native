@@ -107,7 +107,7 @@ export default function Carousel(data) {
       	return item[0];
       }}
       renderItem={({ item }) => {
-        return <Slide data={item} key={item[0]} />;
+        return <Slide data={item} key={item} />;
       }}
       pagingEnabled
       horizontal

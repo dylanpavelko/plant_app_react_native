@@ -42,14 +42,18 @@ export default function MyPlantsScreen({ route, navigation }) {
       showsHorizontalScrollIndicator={false}
       directionalLockEnabled={true}
     >
-      {data.map((plant) => (
-        <MyPlantListItem key={plant.id} 
-        name = {plant.plant_name } 
-        plant_id = { plant.plant_id } 
-        plant_instance_id = { plant.id }
-        location = { plant.location}
-        nav={navigation} />
-      ))}
+      {
+        Object.keys(data).map((e, i) => {
+          return(<LocationPlantList location={e} plants={data[e]} navigation={navigation}/>
+
+          )
+        })
+      }
+        
+
+
+
+
       {hasLoadedUsers? 
         <Button title="Go to My Profile" onPress={() => navigation.navigate('My Profile')} />
       
@@ -67,4 +71,24 @@ export default function MyPlantsScreen({ route, navigation }) {
 
 );
 
+}
+
+
+class LocationPlantList extends React.Component {
+  render() {
+    return(
+      <View>
+        <Text>{this.props.location}</Text>
+          {this.props.plants.map((plant) => (
+          <MyPlantListItem key={plant.id} 
+          name = {plant.plant_name } 
+          plant_id = { plant.plant_id } 
+          plant_instance_id = { plant.id }
+          location = { plant.location}
+          nav={this.props.navigation} />
+        ))}
+
+      </View>
+    );
+  }
 }

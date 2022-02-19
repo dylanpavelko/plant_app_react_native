@@ -84,11 +84,15 @@ export default class PlantLibraryScreen extends React.Component {
       <View style={styles.library}>
         <SearchTextBox update = {this.update} reset = {this.reset} />
 
+        { this.data == [] ? <><Text>Loading</Text><ActivityIndicator/></>  : 
 
           <View style={{width: '100%', flex: 1}}>
-          
-            <PlantGrid data={this.state.filteredData} navigation={this.props.navigation} /> 
+            
+              <PlantGrid data={this.state.filteredData} navigation={this.props.navigation} /> 
+                     
+            
           </View>
+        } 
     </View>
       
 

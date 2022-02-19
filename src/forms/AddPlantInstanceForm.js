@@ -63,7 +63,6 @@ const AddPlantInstanceForm = ({ navigation, plant_id }) => {
 
   const onChangeDate = (event, selectedDate) => {
 	  const currentDate = selectedDate || date;
-	    setShow(Platform.OS === 'ios');
 	    setDate(currentDate);
   };
 
@@ -140,9 +139,9 @@ const AddPlantInstanceForm = ({ navigation, plant_id }) => {
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} >
     { isLocationLoading ? <ActivityIndicator/> : 
       <>
-      { highLevelLocations == undefined ? 
+      { highLevelLocations == undefined || highLevelLocations.length == 0? 
         <View>
-          <Text>To the growth of your plants you must first log in.</Text>
+          <Text>To track the growth of your plants you must first log in.</Text>
           <Button title="Log In / Create Account" onPress={() => navigation.navigate('Log In')} />
         </View>
       : 

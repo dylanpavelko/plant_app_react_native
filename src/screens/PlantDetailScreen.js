@@ -98,7 +98,7 @@ function PlantDetailScreen({ route, navigation }) {
                <Text style={styles.bold}></Text>
             </View>
 
-            { data.growing_recommendations =! [] ?  
+            { data.growing_recommendations && data.growing_recommendations.length > 0?  
             <View style={{margin:10,}}>
                  <Text style={styles.bold}>Local Growing Recommendations</Text>
                   <Text>Plant during:</Text>
@@ -123,7 +123,7 @@ function PlantDetailScreen({ route, navigation }) {
             : null
           }
             
-            { data.resources  =! [] ? 
+            { data.resources && data.resources.length > 0 ? 
                   <View style={{margin:10,}}>
                     <Text style={styles.bold}>Resources</Text>               
                      {data.resources.map((resource) => (

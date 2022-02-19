@@ -38,6 +38,7 @@ export const post = async (destination, body) => {
 
 export const get_with_params = async (destination, body) => {
   const headers = await getHeaders();
+  console.log("destination - " + destination)
   //console.log("getting headers & token " + await getToken())
   const result = await fetch(`${API_URL}${destination}`, {
     method: 'GET',
@@ -46,7 +47,7 @@ export const get_with_params = async (destination, body) => {
   });
 
   if (result.ok) {
-    console.log("get result ok")
+    console.log("get result ok1")
     return await result.json();
   }
 
@@ -55,6 +56,7 @@ export const get_with_params = async (destination, body) => {
 
 export const get = async (destination) => {
   const headers = await getHeaders();
+  console.log("destination - " + destination)
   //console.log("getting headers & token " + await getToken())
   const result = await fetch(`${API_URL}${destination}`, {
     method: 'GET',
@@ -62,7 +64,7 @@ export const get = async (destination) => {
   });
 
   if (result.ok) {
-    console.log("get result ok")
+    console.log("get result ok2")
     return await result.json();
   }
 
