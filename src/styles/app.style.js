@@ -75,6 +75,10 @@ export default StyleSheet.create({
   },
   item50L: {
     width: '50%', // is 50% of container width
+  },
+  listHeader: {
+    fontSize: 18,
+    fontWeight: 'bold'
   }
 
   

@@ -78,13 +78,14 @@ class LocationPlantList extends React.Component {
   render() {
     return(
       <View>
-        <Text>{this.props.location}</Text>
+        <Text style={styles.listHeader}>{this.props.location}</Text>
           {this.props.plants.map((plant) => (
           <MyPlantListItem key={plant.id} 
           name = {plant.plant_name } 
           plant_id = { plant.plant_id } 
           plant_instance_id = { plant.id }
           location = { plant.location}
+          image_url = { plant.image_url }
           nav={this.props.navigation} />
         ))}
 
