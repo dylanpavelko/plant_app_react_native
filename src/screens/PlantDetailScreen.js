@@ -5,6 +5,7 @@ import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 import { getPlant } from '../api/my_plants';
+import { getToken } from '../api/token';
 
 
 import config from './../../config';
@@ -20,6 +21,7 @@ function PlantDetailScreen({ route, navigation }) {
   const { name } = route.params;
   const { plant_id } = route.params;
 
+
   const [locations, setLocations] = useState()
   const [highLevelLocations, setHighLevelLocations] = useState()
 
@@ -29,15 +31,20 @@ function PlantDetailScreen({ route, navigation }) {
   const [data, setData] = useState([]);
   const [isLoadingOpenFarm, setLoadingOpenFarm] = useState(true);
   const [dataOpenFarm, setDataOpenFarm] = useState([]);
+  const [userToken, setUserToken] = useState();
 
 
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
+      console.log("getting plant data")
       setLoading(true);
+      setUserToken(getToken());
       getPlant(plant_id)
         .then((response) => response)
-        .then((json) => {setData(json);})
+        .then((json) => {
+          setData(json);
+        })
         .catch((error) => {
           if(error.error==401){
             console.log("user not logged in")
@@ -84,7 +91,7 @@ function PlantDetailScreen({ route, navigation }) {
               <TaxonomySection label="Variety" name={data.variety? data.variety.name : ''} />
             }
             
-            <TaxonomySection label="Kingdom" name={data.kingdom? data.kingdom.name : ''} />
+            <TaxonomySection label="Kingdom" name={data.kingdom? data.kingdom.name : 'no kingdom??'} />
             <TaxonomySection label="Division" name={data.division? data.division.name : ''} />
             <TaxonomySection label="Class" name={data.plant_class? data.plant_class.name : ''} />
             <TaxonomySection label="Order" name={data.order? data.order.name : ''} />
@@ -144,12 +151,16 @@ function PlantDetailScreen({ route, navigation }) {
 
     </View>
   </View>
-  <BottomSheet
-        ref={sheetRef}
-        snapPoints={[0, 300, 450]}
-        borderRadius={10}
-        renderContent={renderContent}
-      />
+  { userToken ?
+    <BottomSheet
+          ref={sheetRef}
+          snapPoints={[0, 300, 450]}
+          borderRadius={10}
+          renderContent={renderContent}
+        />
+    : null
+  }
+     
   </>
 );
 }

@@ -65,6 +65,12 @@ function GrowthDetailScreen({ route, navigation }) {
           </View>
           <Text style={styles.bold}>Location:</Text>
           <Text>{plantInstanceData.location.name} - {plantInstanceData.high_level_location.name} </Text>
+
+          <Text>{plantInstanceData.planted_date ? ("Planted on " + prettyDate(plantInstanceData.planted_date) )
+          : plantInstanceData.acquired_date ? "Aquired on " + prettyDate(plantInstanceData.acquired_date): ""}
+          </Text>
+        
+
           {plantInstanceData.stages.length >0 && 
             <AddObservationButton plant_id={plant_id} plant_instance_id={plant_instance_id} plant_stages={plantInstanceData.stages} />
           }
@@ -142,5 +148,11 @@ function TaxonomySection(props){
       </Text>
     </View>
   );
+}
+
+function prettyDate(date_string){
+  var jDate2 = new Date(date_string)
+  var jDate2 = new Date( jDate2.getTime() + ( jDate2.getTimezoneOffset() * 60000 ) );
+  return jDate2.toString().slice(4,15);
 }
 
